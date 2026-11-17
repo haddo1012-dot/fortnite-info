@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORTNITE INFO</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#09090d;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#171019;padding:25px 15px;
+ text-align:center;border-bottom:2px solid #ff3030;
+}
+h1{color:#ff3838;font-size:32px;margin:0}
+header p{color:#aaa}
+nav{
+ display:flex;justify-content:center;gap:10px;
+ flex-wrap:wrap;padding:15px;
+}
+nav a{
+ color:white;text-decoration:none;
+ background:#222;padding:10px 14px;
+ border-radius:8px;
+}
+main{max-width:950px;margin:auto;padding:15px}
+section{
+ background:#17171f;border:1px solid #38313c;
+ border-radius:14px;padding:20px;margin-bottom:18px;
+}
+h2{color:#ff4545}
+.info{
+ background:#24242e;padding:15px;
+ border-radius:9px;margin:10px 0;
+}
+button{
+ background:#ff3030;color:white;border:0;
+ border-radius:8px;padding:12px 18px;
+ font-weight:bold;cursor:pointer;
+}
+a{color:#ff7777}
+.small{color:#aaa;font-size:13px}
+footer{text-align:center;padding:25px;color:#888}
+</style>
+</head>
+<body>
+
+<header>
+<h1>FORTNITE INFO</h1>
+<p>Toutes les informations Fortnite au même endroit</p>
+</header>
+
+<nav>
+<a href="#serveurs">Serveurs</a>
+<a href="#maintenance">Maintenance</a>
+<a href="#updates">Mises à jour</a>
+<a href="#news">Actualités</a>
+<a href="#liens">Liens utiles</a>
+</nav>
+
+<main>
+
+<section id="serveurs">
+<h2>🟢 État des serveurs</h2>
+<div class="info" id="status">Chargement...</div>
+<button onclick="refresh()">Actualiser</button>
+<p class="small" id="time"></p>
+</section>
+
+<section id="maintenance">
+<h2>🔧 Maintenances</h2>
+<div id="maint">Chargement...</div>
+</section>
+
+<section id="updates">
+<h2>🆕 Mises à jour</h2>
+<div class="info">
+Consulte les dernières annonces officielles
+pour connaître les nouveautés et les patch notes.
+</div>
+<a href="https://www.fortnite.com/news" target="_blank">
+Voir les mises à jour →
+</a>
+</section>
+
+<section id="news">
+<h2>📰 Actualités Fortnite</h2>
+<div class="info">
+Retrouve les événements, collaborations et annonces.
+</div>
+<a href="https://www.fortnite.com/news" target="_blank">
+Toutes les actualités →
+</a>
+</section>
+
+<section id="liens">
+<h2>🔗 Liens utiles</h2>
+<div class="info">
+<a href="https://status.epicgames.com/" target="_blank">
+Statut officiel des serveurs Epic Games
+</a>
+</div>
+<div class="info">
+<a href="https://www.fortnite.com/item-shop" target="_blank">
+Boutique Fortnite
+</a>
+</div>
+<div class="info">
+<a href="https://x.com/FortniteStatus" target="_blank">
+Compte Fortnite Status
+</a>
+</div>
+</section>
+
+</main>
+
+<footer>
+FORTNITE INFO © 2026<br>
+Site fan non officiel, indépendant d'Epic Games.
+</footer>
+
+<script>
+const API="https://status.epicgames.com/api/v2/";
+
+async function getData(url){
+ const response=await fetch(API+url);
+ if(!response.ok)throw Error("Erreur réseau");
+ return response.json();
+}
+
+async function refresh(){
+ document.getElementById("status").textContent="Vérification...";
+ try{
+  const data=await getData("summary.json");
+  const s=data.status;
+  document.getElementById("status").textContent=
+   s.description || s.indicator;
+ }catch(e){
+  document.getElementById("status").textContent=
+   "Statut indisponible. Consulte le site Epic.";
+ }
+ document.getElementById("time").textContent=
+  "Dernière vérification : "+new Date().toLocaleString("fr-FR");
+}
+
+async function maintenance(){
+ try{
+  const data=await getData("scheduled-maintenances/upcoming.json");
+  const items=(data.scheduled_maintenances||[])
+   .filter(x=>/fortnite/i.test(x.name+" "+(x.description||"")));
+  document.getElementById("maint").innerHTML=items.length?
+   items.map(x=>`<div class="info"><b>${safe(x.name)}</b><br>Début : ${date(x.scheduled_for)}<br>Fin prévue : ${date(x.scheduled_until)}</div>`).join("")
+   :"Aucune maintenance Fortnite annoncée.";
+ }catch(e){
+  document.getElementById("maint").textContent=
+   "Informations momentanément indisponibles.";
+ }
+}
+
+function safe(s){
+ const d=document.createElement("div");
+ d.textContent=s||"";
+ return d.innerHTML;
+}
+function date(d){
+ return d?new Date(d).toLocaleString("fr-FR"):"Non communiqué";
+}
+
+async function update(){
+ await Promise.all([refresh(),maintenance()]);
+}
+
+update();
+setInterval(update,60000);
+</script>
+
+</body>
+</html>
