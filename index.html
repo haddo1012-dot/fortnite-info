@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -401,16 +400,16 @@ updateClock();
 setInterval(updateClock,1000);
 
 const commands = [
-  ["/help","Afficher les possibilités et obtenir de l'aide."],
-  ["/menu","Organiser les différentes sections d'un projet."],
-  ["/code","Demander une explication ou un exemple de code."],
-  ["/debug","Comprendre et rechercher l'origine d'une erreur."],
-  ["/explain","Obtenir une explication claire d'un sujet."],
-  ["/optimize","Améliorer la lisibilité d'un projet."],
-  ["/review","Faire relire un code ou un texte."],
-  ["/build","Préparer les étapes d'une nouvelle idée."],
-  ["/status","Faire le point sur l'avancement d'un projet."],
-  ["/reset","Repartir sur une nouvelle organisation."]
+  ["/help","Afficher toutes les commandes disponibles."],
+  ["/menu","Ouvrir le Dashboard."],
+  ["/code","Ouvrir le Code Lab."],
+  ["/debug","Vérifier les modules de l'interface."],
+  ["/explain","Expliquer le fonctionnement de l'interface."],
+  ["/optimize","Afficher des conseils d'optimisation."],
+  ["/review","Afficher un résumé des fonctionnalités."],
+  ["/build","Afficher la version actuelle."],
+  ["/status","Afficher l'état du système."],
+  ["/reset","Réinitialiser la console."]
 ];
 
 const commandGrid = document.getElementById("commandGrid");
@@ -451,23 +450,119 @@ function printLine(text){
 }
 
 function runConsole(){
-  const value=consoleInput.value.trim().toLowerCase();
-  if(!value)return;
+  const rawValue=consoleInput.value.trim();
+  if(!rawValue)return;
 
-  printLine("fortnite $ "+value);
+  const value=rawValue.toLowerCase().replace(/^\/+/,"");
+  printLine("fortnite $ "+rawValue);
 
-  if(value==="help"){
-    printLine("Commandes : help, status, time, clear, about");
-  }else if(value==="status"){
-    printLine("Interface : ONLINE | Build : 2.2.0 | Mode : LOCAL");
-  }else if(value==="time"){
-    printLine("Heure : "+new Date().toLocaleTimeString("fr-FR"));
-  }else if(value==="about"){
-    printLine("FORTNITE INFO — interface de démonstration.");
-  }else if(value==="clear"){
-    consoleOutput.textContent="Console nettoyée.";
-  }else{
-    printLine("Commande inconnue. Tape help.");
+  switch(value){
+
+    case "help":
+      printLine("COMMAND DIRECTORY");
+      printLine("/help     - Afficher toutes les commandes");
+      printLine("/menu     - Ouvrir le Dashboard");
+      printLine("/code     - Ouvrir le Code Lab");
+      printLine("/debug    - Vérifier les modules");
+      printLine("/explain  - Expliquer l'interface");
+      printLine("/optimize - Conseils d'optimisation");
+      printLine("/review   - Résumé des fonctionnalités");
+      printLine("/build    - Afficher la version");
+      printLine("/status   - État du système");
+      printLine("/reset    - Réinitialiser la console");
+      printLine("Autres commandes : time, clear, about");
+      break;
+
+    case "menu":
+      printLine("Ouverture du Dashboard...");
+      showPage("dashboard");
+      break;
+
+    case "code":
+      printLine("Ouverture du Code Lab...");
+      showPage("lab");
+      break;
+
+    case "debug":
+      printLine("DEBUG REPORT");
+      printLine("Navigation : OK");
+      printLine("Dashboard : "+(document.getElementById("dashboard")?"OK":"ERROR"));
+      printLine("Command directory : "+(document.getElementById("commands")?"OK":"ERROR"));
+      printLine("Command console : "+(document.getElementById("console")?"OK":"ERROR"));
+      printLine("Code Lab : "+(document.getElementById("lab")?"OK":"ERROR"));
+      printLine("Developer tools : "+(document.getElementById("tools")?"OK":"ERROR"));
+      printLine("Security center : "+(document.getElementById("security")?"OK":"ERROR"));
+      printLine("Settings : "+(document.getElementById("settings")?"OK":"ERROR"));
+      printLine("Debug terminé.");
+      break;
+
+    case "explain":
+      printLine("FORTNITE INFO CONTROL CENTER");
+      printLine("Une interface locale composée de plusieurs sections.");
+      printLine("Dashboard : page principale et accès rapide.");
+      printLine("Commands : répertoire des commandes.");
+      printLine("Console : exécution des commandes locales.");
+      printLine("Code Lab : création d'un brief de projet.");
+      printLine("Developer Tools : outils de texte, JSON et nombres.");
+      printLine("Security Center : conseils de sécurité.");
+      printLine("Settings : personnalisation de l'affichage.");
+      break;
+
+    case "optimize":
+      printLine("OPTIMIZATION TIPS");
+      printLine("1. Ferme les onglets inutilisés.");
+      printLine("2. Garde ton navigateur à jour.");
+      printLine("3. Évite d'ouvrir trop d'applications en même temps.");
+      printLine("4. Utilise Reduced Motion si tu préfères moins d'animations.");
+      printLine("5. Utilise Compact Mode pour réduire l'espace visuel.");
+      break;
+
+    case "review":
+      printLine("FEATURE REVIEW");
+      printLine("Interface : FORTNITE INFO CONTROL CENTER");
+      printLine("Version : 2.2.0");
+      printLine("Sections : 8");
+      printLine("Commandes personnalisées : 10");
+      printLine("Outils : analyse de texte, JSON, conversion numérique et heure.");
+      printLine("Navigation : opérationnelle.");
+      break;
+
+    case "build":
+      printLine("BUILD INFORMATION");
+      printLine("Nom : FORTNITE INFO");
+      printLine("Version : 2.2.0");
+      printLine("Technologies : HTML / CSS / JavaScript");
+      printLine("Mode : local");
+      printLine("Build : CONTROL CENTER");
+      break;
+
+    case "status":
+      printLine("SYSTEM STATUS");
+      printLine("Interface : ONLINE");
+      printLine("Navigation : READY");
+      printLine("Modules : 7 disponibles");
+      printLine("Commandes : 10 disponibles");
+      printLine("Build : 2.2.0");
+      printLine("Mode : LOCAL");
+      break;
+
+    case "reset":
+    case "clear":
+      consoleOutput.textContent="FORTNITE INFO CONSOLE v2.2\nConsole réinitialisée.\nTape /help pour voir les commandes disponibles.\n----------------------------------------";
+      break;
+
+    case "time":
+      printLine("Heure : "+new Date().toLocaleTimeString("fr-FR"));
+      break;
+
+    case "about":
+      printLine("FORTNITE INFO — CONTROL CENTER v2.2.0");
+      printLine("Interface de démonstration locale.");
+      break;
+
+    default:
+      printLine("Commande inconnue : "+rawValue);
+      printLine('Tape "/help" pour afficher les commandes disponibles.');
   }
 
   consoleInput.value="";
