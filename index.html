@@ -1,13 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09090c">
-<title>FORTNITE INFO — CONTROL CENTER</title>
+<title>FORTNITE INFO — ULTIMATE HUB</title>
 
 <style>
-:root {
+:root{
   --bg:#08090d;
   --panel:#111218;
   --panel2:#171820;
@@ -24,11 +25,13 @@ body{
 }
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
+a{color:inherit;text-decoration:none}
 .app{display:flex;min-height:100vh}
 .sidebar{
   width:245px;background:#0c0d12;border-right:1px solid var(--border);
   padding:25px 16px;display:flex;flex-direction:column;
   position:fixed;inset:0 auto 0 0;z-index:10;
+  overflow-y:auto;
 }
 .brand{padding:5px 12px 30px}
 .brand-name{font-size:21px;font-weight:950;letter-spacing:2px}
@@ -49,8 +52,11 @@ button{cursor:pointer}
 .nav-icon{width:19px;text-align:center;color:var(--red);font-size:15px}
 .sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding:17px 10px 0}
 .online{font-size:10px;color:#7ddba1;letter-spacing:1px}
-.online:before{content:"";display:inline-block;width:7px;height:7px;
-background:#55dc87;border-radius:50%;margin-right:8px;box-shadow:0 0 9px #55dc87}
+.online:before{
+  content:"";display:inline-block;width:7px;height:7px;
+  background:#55dc87;border-radius:50%;margin-right:8px;
+  box-shadow:0 0 9px #55dc87
+}
 .version{font-size:9px;color:#666976;margin-top:9px}
 .main{margin-left:245px;width:calc(100% - 245px);padding:27px 34px 45px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
@@ -58,35 +64,54 @@ background:#55dc87;border-radius:50%;margin-right:8px;box-shadow:0 0 9px #55dc87
 .breadcrumb b{color:var(--red)}
 .top-right{display:flex;align-items:center;gap:13px}
 .clock{font-size:11px;color:#b8bac4;font-variant-numeric:tabular-nums}
-.status-pill{border:1px solid rgba(85,220,135,.25);background:rgba(85,220,135,.07);
-color:#7ddba1;padding:8px 11px;border-radius:30px;font-size:9px;letter-spacing:1px}
-.mobile-menu{display:none;background:var(--panel);border:1px solid var(--border);
-color:white;padding:9px 12px;border-radius:8px}
+.status-pill{
+  border:1px solid rgba(85,220,135,.25);background:rgba(85,220,135,.07);
+  color:#7ddba1;padding:8px 11px;border-radius:30px;
+  font-size:9px;letter-spacing:1px
+}
+.mobile-menu{
+  display:none;background:var(--panel);border:1px solid var(--border);
+  color:white;padding:9px 12px;border-radius:8px
+}
 .page{display:none;animation:fade .25s ease}
 .page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
 .hero{
   padding:30px;border:1px solid rgba(255,38,61,.22);border-radius:15px;
   background:linear-gradient(115deg,rgba(255,38,61,.13),transparent 55%),#111218;
-  position:relative;overflow:hidden;box-shadow:var(--glow);
+  position:relative;overflow:hidden;box-shadow:var(--glow)
 }
-.hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,38,61,.15);
-border-radius:50%;right:-65px;top:-100px;box-shadow:0 0 0 25px rgba(255,38,61,.025),0 0 0 55px rgba(255,38,61,.02)}
+.hero:after{
+  content:"";position:absolute;width:220px;height:220px;
+  border:1px solid rgba(255,38,61,.15);border-radius:50%;
+  right:-65px;top:-100px;
+  box-shadow:0 0 0 25px rgba(255,38,61,.025),0 0 0 55px rgba(255,38,61,.02)
+}
 .eyebrow{font-size:9px;letter-spacing:3px;color:var(--red);font-weight:bold}
 .hero h1{font-size:clamp(26px,4vw,43px);margin:13px 0 8px;letter-spacing:-1px}
 .hero h1 span{color:var(--red)}
-.hero p{font-size:12px;color:#a5a7b1;line-height:1.7;max-width:540px}
+.hero p{font-size:12px;color:#a5a7b1;line-height:1.7;max-width:600px}
 .hero-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
-.btn{padding:11px 16px;border-radius:8px;border:1px solid var(--border);
-background:#1a1b23;color:white;font-size:11px;font-weight:700}
+.btn{
+  display:inline-block;padding:11px 16px;border-radius:8px;
+  border:1px solid var(--border);background:#1a1b23;
+  color:white;font-size:11px;font-weight:700
+}
 .btn.primary{background:var(--red);border-color:var(--red);color:white}
 .btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin:27px 0 13px}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:27px 0 13px
+}
 .section-head h2{font-size:12px;letter-spacing:2px;margin:0}
 .section-head span{font-size:9px;color:var(--muted)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
 .stat,.card{
-  background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:17px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:11px;padding:17px
 }
 .stat-label{font-size:9px;color:var(--muted);letter-spacing:1px}
 .stat-value{font-size:25px;font-weight:850;margin:12px 0 5px}
@@ -96,68 +121,128 @@ background:#1a1b23;color:white;font-size:11px;font-weight:700}
 .card h3{font-size:11px;letter-spacing:1px;margin:0 0 16px}
 .activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .activity:last-child{border:0}
-.activity-dot{width:7px;height:7px;background:var(--red);border-radius:50%;margin-top:4px;flex-shrink:0}
+.activity-dot{
+  width:7px;height:7px;background:var(--red);border-radius:50%;
+  margin-top:4px;flex-shrink:0
+}
 .activity strong{font-size:11px;display:block}
-.activity small{font-size:9px;color:var(--muted);display:block;margin-top:5px}
+.activity small{font-size:9px;color:var(--muted);display:block;margin-top:5px;line-height:1.6}
 .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .quick{
-  border:1px solid var(--border);background:#171820;color:white;padding:14px;
-  text-align:left;border-radius:9px;transition:.2s;
+  border:1px solid var(--border);background:#171820;color:white;
+  padding:14px;text-align:left;border-radius:9px;transition:.2s
 }
 .quick:hover{border-color:var(--red);background:rgba(255,38,61,.07)}
 .quick b{display:block;font-size:11px;margin-bottom:6px}
 .quick small{font-size:9px;color:var(--muted)}
 .page-title{font-size:25px;margin:5px 0 8px}
-.page-desc{font-size:11px;color:var(--muted);margin-bottom:23px;line-height:1.6}
+.page-desc{font-size:11px;color:var(--muted);margin-bottom:23px;line-height:1.7}
 .command-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .command{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:17px}
 .command code{color:var(--red);font-size:13px;font-weight:bold}
 .command p{font-size:10px;color:var(--muted);line-height:1.6}
-.command button{background:#20212a;border:1px solid var(--border);color:white;
-padding:8px 10px;border-radius:6px;font-size:9px}
-.field{width:100%;background:#090a0f;color:white;border:1px solid var(--border);
-border-radius:8px;padding:12px;outline:none;font-size:11px;margin:7px 0 13px}
+.command button{
+  background:#20212a;border:1px solid var(--border);color:white;
+  padding:8px 10px;border-radius:6px;font-size:9px
+}
+.field{
+  width:100%;background:#090a0f;color:white;border:1px solid var(--border);
+  border-radius:8px;padding:12px;outline:none;font-size:11px;margin:7px 0 13px
+}
 .field:focus{border-color:var(--red)}
 textarea.field{min-height:130px;resize:vertical}
 .tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.result{background:#090a0f;border:1px solid var(--border);padding:12px;
-border-radius:8px;color:#8fe3a8;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere;min-height:35px}
-.console{background:#07080b;border:1px solid rgba(255,38,61,.2);border-radius:10px;padding:16px}
-.console-output{height:190px;overflow:auto;font-family:monospace;font-size:10px;
-line-height:1.8;color:#b8bac4;white-space:pre-wrap}
-.console-line{display:flex;gap:8px;align-items:center;border-top:1px solid var(--border);padding-top:10px}
+.result{
+  background:#090a0f;border:1px solid var(--border);padding:12px;
+  border-radius:8px;color:#8fe3a8;font-size:11px;
+  white-space:pre-wrap;overflow-wrap:anywhere;min-height:35px
+}
+.console{
+  background:#07080b;border:1px solid rgba(255,38,61,.2);
+  border-radius:10px;padding:16px
+}
+.console-output{
+  height:190px;overflow:auto;font-family:monospace;font-size:10px;
+  line-height:1.8;color:#b8bac4;white-space:pre-wrap
+}
+.console-line{
+  display:flex;gap:8px;align-items:center;
+  border-top:1px solid var(--border);padding-top:10px
+}
 .console-line span{color:var(--red);font-family:monospace}
-.console-line input{flex:1;min-width:0;background:transparent;border:0;color:white;outline:0;font-size:11px}
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;
-border-bottom:1px solid var(--border)}
+.console-line input{
+  flex:1;min-width:0;background:transparent;border:0;
+  color:white;outline:0;font-size:11px
+}
+.setting-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0;border-bottom:1px solid var(--border)
+}
 .setting-row strong{font-size:11px}
 .setting-row small{display:block;color:var(--muted);font-size:9px;margin-top:5px}
 .switch{accent-color:var(--red);width:17px;height:17px}
 .footer{text-align:center;color:#555865;font-size:9px;margin-top:40px;letter-spacing:1px}
 .notice{font-size:10px;color:var(--muted);line-height:1.7;margin-top:12px}
 body.compact .card,body.compact .stat{padding:11px}
-body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+body.reduce-motion *,body.reduce-motion *:before{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
+}
+.info-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:11px;padding:18px;transition:.2s
+}
+.info-card:hover{border-color:rgba(255,38,61,.45);transform:translateY(-2px)}
+.info-card h3{margin:10px 0;font-size:13px}
+.info-card p{font-size:10px;color:var(--muted);line-height:1.7}
+.info-icon{font-size:25px}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tag{
+  display:inline-block;background:rgba(255,38,61,.1);
+  border:1px solid rgba(255,38,61,.22);color:#ff6979;
+  border-radius:20px;padding:5px 9px;font-size:9px;letter-spacing:.5px
+}
+.link-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:14px 0;border-bottom:1px solid var(--border)
+}
+.link-row:last-child{border:0}
+.link-row strong{font-size:11px}
+.link-row small{display:block;color:var(--muted);font-size:9px;margin-top:5px}
+.external{
+  color:var(--red);font-size:10px;font-weight:bold;white-space:nowrap
+}
+.notice-box{
+  background:rgba(255,38,61,.06);
+  border:1px solid rgba(255,38,61,.18);
+  border-radius:9px;padding:13px;color:#c3c4cc;
+  font-size:10px;line-height:1.7
+}
 @media(max-width:900px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .command-grid{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .command-grid{grid-template-columns:repeat(2,1fr)}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:650px){
- .sidebar{transform:translateX(-100%);transition:.25s;width:260px;box-shadow:20px 0 50px #000}
- .sidebar.open{transform:translateX(0)}
- .main{margin:0;width:100%;padding:18px 15px 35px}
- .mobile-menu{display:block}
- .topbar{gap:10px}
- .top-right{gap:7px}
- .status-pill{display:none}
- .hero{padding:22px}
- .stats{gap:8px}
- .stat{padding:13px}
- .stat-value{font-size:21px}
- .content-grid,.tool-grid{grid-template-columns:1fr}
- .command-grid{grid-template-columns:1fr 1fr}
+  .sidebar{
+    transform:translateX(-100%);transition:.25s;width:260px;
+    box-shadow:20px 0 50px #000
+  }
+  .sidebar.open{transform:translateX(0)}
+  .main{margin:0;width:100%;padding:18px 15px 35px}
+  .mobile-menu{display:block}
+  .topbar{gap:10px}
+  .top-right{gap:7px}
+  .status-pill{display:none}
+  .hero{padding:22px}
+  .stats{gap:8px}
+  .stat{padding:13px}
+  .stat-value{font-size:21px}
+  .content-grid,.tool-grid{grid-template-columns:1fr}
+  .command-grid{grid-template-columns:1fr 1fr}
+  .info-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:390px){
- .command-grid{grid-template-columns:1fr}
+  .command-grid,.info-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -168,16 +253,20 @@ body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transi
 <aside class="sidebar" id="sidebar">
   <div class="brand">
     <div class="brand-name">FORTNITE INFO<span>.</span></div>
-    <div class="brand-sub">CONTROL CENTER</div>
+    <div class="brand-sub">ULTIMATE FORTNITE HUB</div>
   </div>
 
-  <div class="nav-label">WORKSPACE</div>
-  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+  <div class="nav-label">FORTNITE</div>
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Accueil</button>
+  <button class="nav-btn" data-page="news"><span class="nav-icon">◉</span>Actualités</button>
+  <button class="nav-btn" data-page="modes"><span class="nav-icon">🎮</span>Modes de jeu</button>
+  <button class="nav-btn" data-page="competitive"><span class="nav-icon">🏆</span>Compétitif</button>
+  <button class="nav-btn" data-page="map"><span class="nav-icon">⌖</span>Carte & univers</button>
+
+  <div class="nav-label">TOOLS</div>
   <button class="nav-btn" data-page="commands"><span class="nav-icon">⌘</span>Command directory</button>
   <button class="nav-btn" data-page="console"><span class="nav-icon">›_</span>Command console</button>
-
-  <div class="nav-label">DEVELOPMENT</div>
-  <button class="nav-btn" data-page="lab"><span class="nav-icon">⌘</span>Code lab</button>
+  <button class="nav-btn" data-page="lab"><span class="nav-icon">⌁</span>Code lab</button>
   <button class="nav-btn" data-page="tools"><span class="nav-icon">⚙</span>Developer tools</button>
 
   <div class="nav-label">SYSTEM</div>
@@ -187,7 +276,7 @@ body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transi
 
   <div class="sidebar-bottom">
     <div class="online">INTERFACE ONLINE</div>
-    <div class="version">FORTNITE INFO BUILD 2.2.0</div>
+    <div class="version">FORTNITE INFO BUILD 3.0.0</div>
   </div>
 </aside>
 
@@ -195,7 +284,7 @@ body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transi
   <header class="topbar">
     <div style="display:flex;align-items:center;gap:12px">
       <button class="mobile-menu" id="menuBtn" aria-label="Ouvrir le menu">☰</button>
-      <div class="breadcrumb">FORTNITE INFO / <b id="crumb">DASHBOARD</b></div>
+      <div class="breadcrumb">FORTNITE INFO / <b id="crumb">ACCUEIL</b></div>
     </div>
     <div class="top-right">
       <div class="clock" id="clock">00:00:00</div>
@@ -203,65 +292,302 @@ body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transi
     </div>
   </header>
 
+  <!-- DASHBOARD -->
   <section class="page active" id="dashboard">
     <div class="hero">
-      <div class="eyebrow">WELCOME TO THE CONTROL CENTER</div>
-      <h1>TAKE CONTROL OF <span>YOUR SPACE.</span></h1>
-      <p>Un espace de commande moderne pour organiser tes projets, tester tes idées et accéder rapidement à tes outils.</p>
+      <div class="eyebrow">THE ULTIMATE FORTNITE HUB</div>
+      <h1>WELCOME TO <span>FORTNITE.</span></h1>
+      <p>Ton espace dédié à Fortnite : actualités officielles, modes de jeu, compétitions, univers et ressources utiles. Tout au même endroit.</p>
       <div class="hero-actions">
-        <button class="btn primary" data-go="commands">Explorer les commandes ↗</button>
-        <button class="btn" data-go="tools">Ouvrir les outils</button>
+        <button class="btn primary" data-go="news">Explorer les actualités ↗</button>
+        <button class="btn" data-go="modes">Découvrir les modes</button>
       </div>
     </div>
 
-    <div class="section-head"><h2>OVERVIEW</h2><span>LOCAL INTERFACE</span></div>
+    <div class="section-head"><h2>FORTNITE HUB</h2><span>QUICK ACCESS</span></div>
     <div class="stats">
-      <div class="stat"><div class="stat-label">INTERFACE</div><div class="stat-value red">ONLINE</div><div class="stat-note">Page opérationnelle</div></div>
-      <div class="stat"><div class="stat-label">MODULES</div><div class="stat-value">07</div><div class="stat-note">Sections disponibles</div></div>
-      <div class="stat"><div class="stat-label">COMMANDS</div><div class="stat-value">10</div><div class="stat-note">Raccourcis informatifs</div></div>
-      <div class="stat"><div class="stat-label">BUILD</div><div class="stat-value">2.2</div><div class="stat-note">CONTROL CENTER</div></div>
+      <div class="stat">
+        <div class="stat-label">GAME</div>
+        <div class="stat-value red">FORTNITE</div>
+        <div class="stat-note">Epic Games</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">GAME MODES</div>
+        <div class="stat-value">04+</div>
+        <div class="stat-note">Univers à découvrir</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">OFFICIAL LINKS</div>
+        <div class="stat-value">05</div>
+        <div class="stat-note">Ressources officielles</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">WEBSITE BUILD</div>
+        <div class="stat-value">3.0</div>
+        <div class="stat-note">Fortnite Hub Edition</div>
+      </div>
     </div>
 
     <div class="content-grid">
       <div>
-        <div class="section-head"><h2>RECENT ACTIVITY</h2><span>LOCAL</span></div>
+        <div class="section-head"><h2>DISCOVER FORTNITE</h2><span>EXPLORE</span></div>
         <div class="card">
-          <div class="activity"><div class="activity-dot"></div><div><strong>Interface initialisée</strong><small>Le centre de commande est prêt.</small></div></div>
-          <div class="activity"><div class="activity-dot"></div><div><strong>Modules chargés</strong><small>Les outils locaux sont disponibles.</small></div></div>
-          <div class="activity"><div class="activity-dot"></div><div><strong>Thème activé</strong><small>Thème sombre et rouge appliqué.</small></div></div>
+          <div class="activity">
+            <div class="activity-dot"></div>
+            <div><strong>Actualités Fortnite</strong><small>Retrouve les annonces, nouveautés et notes de mise à jour sur les canaux officiels.</small></div>
+          </div>
+          <div class="activity">
+            <div class="activity-dot"></div>
+            <div><strong>Modes de jeu</strong><small>Battle Royale, Zéro construction, LEGO Fortnite, Rocket Racing et plus.</small></div>
+          </div>
+          <div class="activity">
+            <div class="activity-dot"></div>
+            <div><strong>Compétitions</strong><small>Découvre les tournois et les informations compétitives d'Epic Games.</small></div>
+          </div>
+          <div class="activity">
+            <div class="activity-dot"></div>
+            <div><strong>Univers Fortnite</strong><small>Explore les ressources utiles autour de la carte et du jeu.</small></div>
+          </div>
         </div>
       </div>
       <div>
         <div class="section-head"><h2>QUICK ACCESS</h2><span>SHORTCUTS</span></div>
         <div class="quick-grid">
-          <button class="quick" data-go="console"><b>⌘ Console</b><small>Commandes rapides</small></button>
-          <button class="quick" data-go="lab"><b>⌁ Code lab</b><small>Préparer un projet</small></button>
-          <button class="quick" data-go="tools"><b>⚙ Tools</b><small>Outils développeur</small></button>
-          <button class="quick" data-go="security"><b>◇ Security</b><small>Conseils de sécurité</small></button>
+          <button class="quick" data-go="news"><b>◉ Actualités</b><small>Nouveautés et annonces</small></button>
+          <button class="quick" data-go="modes"><b>🎮 Modes</b><small>Les univers Fortnite</small></button>
+          <button class="quick" data-go="competitive"><b>🏆 Compétitif</b><small>Tournois et esports</small></button>
+          <button class="quick" data-go="map"><b>⌖ Carte</b><small>Explorer le jeu</small></button>
         </div>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>OFFICIAL FORTNITE LINKS</h2><span>EPIC GAMES</span></div>
+    <div class="card">
+      <div class="link-row">
+        <div><strong>Site officiel Fortnite</strong><small>Site principal du jeu</small></div>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">OUVRIR ↗</a>
+      </div>
+      <div class="link-row">
+        <div><strong>Actualités officielles</strong><small>Annonces et nouveautés</small></div>
+        <a class="external" href="https://www.fortnite.com/news" target="_blank" rel="noopener">OUVRIR ↗</a>
+      </div>
+      <div class="link-row">
+        <div><strong>État des serveurs</strong><small>État des services Epic Games</small></div>
+        <a class="external" href="https://status.epicgames.com/" target="_blank" rel="noopener">OUVRIR ↗</a>
       </div>
     </div>
   </section>
 
+  <!-- NEWS -->
+  <section class="page" id="news">
+    <h1 class="page-title">Fortnite News<span class="red">.</span></h1>
+    <p class="page-desc">Les actualités, annonces et mises à jour de Fortnite. Les liens ci-dessous renvoient vers les sources officielles.</p>
+
+    <div class="hero">
+      <div class="eyebrow">OFFICIAL NEWS CENTER</div>
+      <h1>WHAT'S <span>NEW?</span></h1>
+      <p>Découvre les annonces d'Epic Games, les nouveautés du jeu et les informations sur les mises à jour.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Lire les actualités ↗</a>
+        <a class="btn" href="https://status.epicgames.com/" target="_blank" rel="noopener">État des serveurs ↗</a>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>NEWS SOURCES</h2><span>OFFICIAL</span></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon">📰</div>
+        <span class="tag">NEWS</span>
+        <h3>Actualités Fortnite</h3>
+        <p>Retrouve les annonces officielles, les événements et les nouveautés publiées par Epic Games.</p>
+        <a class="external" href="https://www.fortnite.com/news" target="_blank" rel="noopener">CONSULTER ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🛠️</div>
+        <span class="tag">UPDATES</span>
+        <h3>Mises à jour</h3>
+        <p>Consulte les informations et notes de mise à jour disponibles sur le site officiel.</p>
+        <a class="external" href="https://www.fortnite.com/news" target="_blank" rel="noopener">VOIR LES NOTES ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🟢</div>
+        <span class="tag">STATUS</span>
+        <h3>État des serveurs</h3>
+        <p>Vérifie les éventuelles interruptions et les problèmes signalés sur les services Epic.</p>
+        <a class="external" href="https://status.epicgames.com/" target="_blank" rel="noopener">VÉRIFIER ↗</a>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>INFORMATION</h2><span>IMPORTANT</span></div>
+    <div class="notice-box">
+      Les informations de jeu changent régulièrement. Cette page sert de portail vers les sources officielles : elle n'invente pas de dates de mises à jour ni de nouvelles saisons.
+    </div>
+  </section>
+
+  <!-- MODES -->
+  <section class="page" id="modes">
+    <h1 class="page-title">Game Modes<span class="red">.</span></h1>
+    <p class="page-desc">Découvre les différents modes et expériences de l'univers Fortnite.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon">🪂</div>
+        <span class="tag">BATTLE ROYALE</span>
+        <h3>Battle Royale</h3>
+        <p>Affronte les autres joueurs, récupère de l'équipement et tente d'être le dernier survivant.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">DÉCOUVRIR ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🎯</div>
+        <span class="tag">NO BUILD</span>
+        <h3>Zéro construction</h3>
+        <p>Une expérience Battle Royale sans construction, où le déplacement et le placement sont essentiels.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">DÉCOUVRIR ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🧱</div>
+        <span class="tag">SURVIVAL</span>
+        <h3>LEGO Fortnite</h3>
+        <p>Explore, construis et découvre une expérience LEGO dans l'univers Fortnite.</p>
+        <a class="external" href="https://www.lego.com/" target="_blank" rel="noopener">EN SAVOIR PLUS ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🏎️</div>
+        <span class="tag">RACING</span>
+        <h3>Rocket Racing</h3>
+        <p>Une expérience de course avec des circuits, des véhicules et des défis de pilotage.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">DÉCOUVRIR ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🎵</div>
+        <span class="tag">MUSIC</span>
+        <h3>Fortnite Festival</h3>
+        <p>Une expérience musicale avec des morceaux et des performances rythmiques.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">DÉCOUVRIR ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🛠️</div>
+        <span class="tag">CREATIVE</span>
+        <h3>Mode Créatif</h3>
+        <p>Découvre des îles créées par la communauté et imagine tes propres expériences.</p>
+        <a class="external" href="https://www.fortnite.com/creative" target="_blank" rel="noopener">EXPLORER ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE -->
+  <section class="page" id="competitive">
+    <h1 class="page-title">Competitive<span class="red">.</span></h1>
+    <p class="page-desc">Retrouve les ressources utiles pour suivre la scène compétitive Fortnite.</p>
+
+    <div class="hero">
+      <div class="eyebrow">FORTNITE COMPETITIVE</div>
+      <h1>PLAY TO <span>COMPETE.</span></h1>
+      <p>Tournois, classements, règles et informations officielles : prépare-toi à découvrir la compétition Fortnite.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://www.fortnite.com/competitive" target="_blank" rel="noopener">Espace compétitif ↗</a>
+        <a class="btn" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Actualités ↗</a>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>COMPETITIVE RESOURCES</h2><span>ESPORTS</span></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon">🏆</div>
+        <span class="tag">TOURNAMENTS</span>
+        <h3>Tournois</h3>
+        <p>Consulte les compétitions disponibles et les annonces officielles.</p>
+        <a class="external" href="https://www.fortnite.com/competitive" target="_blank" rel="noopener">VOIR LES TOURNOIS ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">📊</div>
+        <span class="tag">RANKED</span>
+        <h3>Classé</h3>
+        <p>Découvre les informations relatives aux modes classés et à leur fonctionnement.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">FORTNITE ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">📋</div>
+        <span class="tag">RULES</span>
+        <h3>Règles officielles</h3>
+        <p>Consulte les conditions et les règles des compétitions Fortnite.</p>
+        <a class="external" href="https://www.fortnite.com/competitive" target="_blank" rel="noopener">CONSULTER ↗</a>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>PLAY FAIR</h2></div>
+    <div class="notice-box">
+      Utilise uniquement les fonctionnalités autorisées par Epic Games. Évite les logiciels de triche, les faux tournois et les sites qui demandent ton mot de passe.
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="page" id="map">
+    <h1 class="page-title">Map & Universe<span class="red">.</span></h1>
+    <p class="page-desc">Explore l'univers Fortnite et retrouve des ressources pour mieux connaître les îles et les expériences du jeu.</p>
+
+    <div class="hero">
+      <div class="eyebrow">EXPLORE THE ISLAND</div>
+      <h1>DROP INTO <span>FORTNITE.</span></h1>
+      <p>Prépare tes parties, découvre les lieux et explore les créations de la communauté.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://www.fortnite.com/" target="_blank" rel="noopener">Site Fortnite ↗</a>
+        <a class="btn" href="https://www.fortnite.com/creative" target="_blank" rel="noopener">Îles créatives ↗</a>
+      </div>
+    </div>
+
+    <div class="section-head"><h2>EXPLORE</h2><span>DISCOVERY</span></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon">🗺️</div>
+        <span class="tag">ISLAND</span>
+        <h3>Carte du jeu</h3>
+        <p>Les cartes et lieux peuvent changer selon les saisons et les mises à jour.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">EXPLORER ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">📍</div>
+        <span class="tag">LOCATIONS</span>
+        <h3>Lieux et zones</h3>
+        <p>Découvre les différents endroits et points d'intérêt présents dans le jeu.</p>
+        <a class="external" href="https://www.fortnite.com/" target="_blank" rel="noopener">DÉCOUVRIR ↗</a>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🌐</div>
+        <span class="tag">CREATIVE</span>
+        <h3>Îles de la communauté</h3>
+        <p>Explore les expériences et les îles créées par les joueurs.</p>
+        <a class="external" href="https://www.fortnite.com/creative" target="_blank" rel="noopener">VOIR LES ÎLES ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMANDS -->
   <section class="page" id="commands">
     <h1 class="page-title">Command directory<span class="red">.</span></h1>
-    <p class="page-desc">Des raccourcis pour organiser tes demandes et tes projets. Ils ne lancent pas de commandes système.</p>
+    <p class="page-desc">Les 10 commandes personnalisées de ton centre de contrôle.</p>
     <div class="command-grid" id="commandGrid"></div>
   </section>
 
+  <!-- CONSOLE -->
   <section class="page" id="console">
     <h1 class="page-title">Command console<span class="red">.</span></h1>
-    <p class="page-desc">Console de démonstration locale. Essaie help, status, time ou clear.</p>
+    <p class="page-desc">Console locale de démonstration. Tape /help pour voir les 10 commandes disponibles.</p>
     <div class="console">
-      <div class="console-output" id="consoleOutput">FORTNITE INFO CONSOLE v2.2
+      <div class="console-output" id="consoleOutput">FORTNITE INFO CONSOLE v3.0
 Initialisation terminée.
-Tape "help" pour voir les commandes disponibles.
+Tape "/help" pour voir les commandes disponibles.
 ----------------------------------------</div>
-      <div class="console-line"><span>fortnite $</span><input id="consoleInput" placeholder="Entre une commande..." autocomplete="off"><button class="btn primary" id="runCommand">RUN</button></div>
+      <div class="console-line">
+        <span>fortnite $</span>
+        <input id="consoleInput" placeholder="Entre une commande..." autocomplete="off">
+        <button class="btn primary" id="runCommand">RUN</button>
+      </div>
     </div>
-    <p class="notice">Cette console est une simulation dans ton navigateur. Elle n'accède pas à ton téléphone ni à un serveur.</p>
+    <p class="notice">Cette console fonctionne dans ton navigateur. Elle ne lance pas de commandes système et n'accède pas aux serveurs Fortnite.</p>
   </section>
 
+  <!-- CODE LAB -->
   <section class="page" id="lab">
     <h1 class="page-title">Code lab<span class="red">.</span></h1>
     <p class="page-desc">Prépare une fiche de projet informatique avec un brief simple.</p>
@@ -271,7 +597,11 @@ Tape "help" pour voir les commandes disponibles.
       <input class="field" id="projectName" placeholder="Ex : Mon site web">
       <label class="stat-label" for="projectType">TYPE DE PROJET</label>
       <select class="field" id="projectType">
-        <option>Site web</option><option>Application</option><option>Jeu vidéo</option><option>Outil informatique</option><option>Projet cybersécurité</option>
+        <option>Site web</option>
+        <option>Application</option>
+        <option>Jeu vidéo</option>
+        <option>Outil informatique</option>
+        <option>Projet cybersécurité</option>
       </select>
       <label class="stat-label" for="projectDescription">DESCRIPTION</label>
       <textarea class="field" id="projectDescription" placeholder="Décris ton idée..."></textarea>
@@ -282,6 +612,7 @@ Tape "help" pour voir les commandes disponibles.
     </div>
   </section>
 
+  <!-- DEVELOPER TOOLS -->
   <section class="page" id="tools">
     <h1 class="page-title">Developer tools<span class="red">.</span></h1>
     <p class="page-desc">Petits outils pratiques directement dans ton navigateur.</p>
@@ -310,50 +641,81 @@ Tape "help" pour voir les commandes disponibles.
     </div>
   </section>
 
+  <!-- SECURITY -->
   <section class="page" id="security">
     <h1 class="page-title">Security center<span class="red">.</span></h1>
-    <p class="page-desc">Quelques bonnes pratiques pour protéger tes comptes et tes appareils.</p>
+    <p class="page-desc">Quelques bonnes pratiques pour protéger tes comptes Epic et tes appareils.</p>
     <div class="card">
-      <div class="activity"><div class="activity-dot"></div><div><strong>Mots de passe uniques</strong><small>Utilise un mot de passe différent pour chaque compte important.</small></div></div>
-      <div class="activity"><div class="activity-dot"></div><div><strong>Double authentification</strong><small>Active la vérification en deux étapes quand elle est disponible.</small></div></div>
-      <div class="activity"><div class="activity-dot"></div><div><strong>Mises à jour</strong><small>Installe les mises à jour officielles de tes applications et appareils.</small></div></div>
-      <div class="activity"><div class="activity-dot"></div><div><strong>Liens suspects</strong><small>Vérifie l'adresse d'un site avant de saisir tes informations.</small></div></div>
-      <div class="activity"><div class="activity-dot"></div><div><strong>Confidentialité</strong><small>Ne partage jamais tes codes, mots de passe ou informations privées.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Protège ton compte Epic</strong><small>Utilise un mot de passe unique et difficile à deviner.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Double authentification</strong><small>Active l'authentification à deux facteurs sur ton compte Epic Games.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Faux V-Bucks gratuits</strong><small>Méfie-toi des sites qui promettent des V-Bucks gratuits en échange de tes identifiants.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Liens suspects</strong><small>Vérifie que tu es bien sur un site officiel avant de te connecter.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Partage de compte</strong><small>Ne partage jamais ton mot de passe ni tes codes de connexion.</small></div></div>
     </div>
-    <p class="notice">Ce module donne des conseils. Il ne réalise aucun scan et ne vérifie pas la sécurité de ton appareil.</p>
+    <div class="section-head"><h2>OFFICIAL ACCOUNT SECURITY</h2></div>
+    <div class="card">
+      <div class="link-row">
+        <div><strong>Compte Epic Games</strong><small>Gérer les paramètres de ton compte</small></div>
+        <a class="external" href="https://www.epicgames.com/account/" target="_blank" rel="noopener">OUVRIR ↗</a>
+      </div>
+      <div class="link-row">
+        <div><strong>Assistance Epic Games</strong><small>Centre d'aide officiel</small></div>
+        <a class="external" href="https://www.epicgames.com/help/" target="_blank" rel="noopener">OUVRIR ↗</a>
+      </div>
+    </div>
+    <p class="notice">Ce module donne des conseils. Il ne réalise aucun scan et ne vérifie pas la sécurité de ton compte.</p>
   </section>
 
+  <!-- SETTINGS -->
   <section class="page" id="settings">
     <h1 class="page-title">Settings<span class="red">.</span></h1>
-    <p class="page-desc">Personnalise l'affichage de ton centre de commande.</p>
+    <p class="page-desc">Personnalise l'affichage de ton centre Fortnite Info.</p>
     <div class="card">
-      <div class="setting-row"><div><strong>Compact mode</strong><small>Réduit l'espace entre les éléments.</small></div><input class="switch" type="checkbox" id="compactMode"></div>
-      <div class="setting-row"><div><strong>Reduced motion</strong><small>Désactive les animations de l'interface.</small></div><input class="switch" type="checkbox" id="motionMode"></div>
-      <div class="setting-row"><div><strong>Theme</strong><small>Thème noir et rouge.</small></div><span class="red" style="font-size:10px">ACTIVE</span></div>
+      <div class="setting-row">
+        <div><strong>Compact mode</strong><small>Réduit l'espace entre les éléments.</small></div>
+        <input class="switch" type="checkbox" id="compactMode">
+      </div>
+      <div class="setting-row">
+        <div><strong>Reduced motion</strong><small>Désactive les animations de l'interface.</small></div>
+        <input class="switch" type="checkbox" id="motionMode">
+      </div>
+      <div class="setting-row">
+        <div><strong>Theme</strong><small>Thème noir et rouge.</small></div>
+        <span class="red" style="font-size:10px">ACTIVE</span>
+      </div>
       <button class="btn" id="resetSettings" style="margin-top:17px">Réinitialiser l'affichage</button>
     </div>
   </section>
 
+  <!-- ABOUT -->
   <section class="page" id="about">
     <h1 class="page-title">About Fortnite Info<span class="red">.</span></h1>
     <div class="hero">
-      <div class="eyebrow">CONTROL CENTER EDITION</div>
-      <h1>FORTNITE INFO <span>2.2.0</span></h1>
-      <p>Un tableau de bord personnel conçu pour réunir des outils, des raccourcis et des informations dans une interface moderne.</p>
+      <div class="eyebrow">FORTNITE HUB EDITION</div>
+      <h1>FORTNITE INFO <span>3.0</span></h1>
+      <p>Un hub non officiel consacré à Fortnite : actualités, modes de jeu, compétitions et ressources utiles, avec un centre d'outils intégré.</p>
     </div>
     <div class="card" style="margin-top:15px">
       <h3>INFORMATION</h3>
-      <p class="notice">Version : 2.2.0<br>Interface : HTML / CSS / JavaScript<br>Mode : local, sans serveur<br>Design : noir et rouge<br><br>Les outils de cette page fonctionnent dans ton navigateur. Aucune connexion à un système externe n'est effectuée.</p>
+      <p class="notice">
+        Version : 3.0.0<br>
+        Interface : HTML / CSS / JavaScript<br>
+        Sections Fortnite : Actualités, Modes, Compétitif, Carte<br>
+        Outils : Console, Code Lab, Developer Tools<br>
+        Design : Noir et rouge<br><br>
+        Fortnite Info est un projet indépendant et non officiel. Il n'est ni créé ni approuvé par Epic Games.
+      </p>
     </div>
   </section>
 
-  <div class="footer">FORTNITE INFO · BUILD 2.2.0 · CONTROL CENTER</div>
+  <div class="footer">FORTNITE INFO · BUILD 3.0.0 · UNOFFICIAL FORTNITE HUB</div>
 </main>
 </div>
 
 <script>
 "use strict";
 
+/* NAVIGATION */
 const pages = document.querySelectorAll(".page");
 const navButtons = document.querySelectorAll(".nav-btn");
 const crumb = document.getElementById("crumb");
@@ -363,18 +725,27 @@ function showPage(id){
   const target = document.getElementById(id);
   if(!target || !target.classList.contains("page")) return;
 
-  pages.forEach(page => page.classList.toggle("active", page.id === id));
-  navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === id));
-  crumb.textContent = id.replace("-", " ").toUpperCase();
+  pages.forEach(page => page.classList.toggle("active",page.id===id));
+  navButtons.forEach(button => button.classList.toggle("active",button.dataset.page===id));
+
+  const activeButton = document.querySelector('.nav-btn[data-page="'+id+'"]');
+  crumb.textContent = activeButton
+    ? activeButton.textContent.trim().toUpperCase()
+    : id.toUpperCase();
+
   sidebar.classList.remove("open");
-  window.scrollTo({top:0,behavior:document.body.classList.contains("reduce-motion")?"auto":"smooth"});
+
+  window.scrollTo({
+    top:0,
+    behavior:document.body.classList.contains("reduce-motion")?"auto":"smooth"
+  });
 }
 
-navButtons.forEach(button => {
+navButtons.forEach(button=>{
   button.addEventListener("click",()=>showPage(button.dataset.page));
 });
 
-document.querySelectorAll("[data-go]").forEach(button => {
+document.querySelectorAll("[data-go]").forEach(button=>{
   button.addEventListener("click",()=>showPage(button.dataset.go));
 });
 
@@ -383,7 +754,7 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
 });
 
 document.addEventListener("click",event=>{
-  if(window.innerWidth <= 650 &&
+  if(window.innerWidth<=650 &&
      sidebar.classList.contains("open") &&
      !sidebar.contains(event.target) &&
      !event.target.closest("#menuBtn")){
@@ -391,15 +762,17 @@ document.addEventListener("click",event=>{
   }
 });
 
+/* CLOCK */
 function updateClock(){
-  const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString("fr-FR");
-  document.getElementById("timeResult").textContent = now.toLocaleString("fr-FR");
+  const now=new Date();
+  document.getElementById("clock").textContent=now.toLocaleTimeString("fr-FR");
+  document.getElementById("timeResult").textContent=now.toLocaleString("fr-FR");
 }
 updateClock();
 setInterval(updateClock,1000);
 
-const commands = [
+/* COMMAND DIRECTORY - 10 COMMANDS */
+const commands=[
   ["/help","Afficher toutes les commandes disponibles."],
   ["/menu","Ouvrir le Dashboard."],
   ["/code","Ouvrir le Code Lab."],
@@ -412,10 +785,10 @@ const commands = [
   ["/reset","Réinitialiser la console."]
 ];
 
-const commandGrid = document.getElementById("commandGrid");
+const commandGrid=document.getElementById("commandGrid");
 
 commands.forEach(([name,description])=>{
-  const card = document.createElement("div");
+  const card=document.createElement("div");
   card.className="command";
 
   const code=document.createElement("code");
@@ -441,11 +814,12 @@ commands.forEach(([name,description])=>{
   commandGrid.appendChild(card);
 });
 
+/* CONSOLE */
 const consoleOutput=document.getElementById("consoleOutput");
 const consoleInput=document.getElementById("consoleInput");
 
 function printLine(text){
-  consoleOutput.textContent += "\n"+text;
+  consoleOutput.textContent+="\n"+text;
   consoleOutput.scrollTop=consoleOutput.scrollHeight;
 }
 
@@ -487,8 +861,12 @@ function runConsole(){
       printLine("DEBUG REPORT");
       printLine("Navigation : OK");
       printLine("Dashboard : "+(document.getElementById("dashboard")?"OK":"ERROR"));
+      printLine("Actualités : "+(document.getElementById("news")?"OK":"ERROR"));
+      printLine("Modes : "+(document.getElementById("modes")?"OK":"ERROR"));
+      printLine("Compétitif : "+(document.getElementById("competitive")?"OK":"ERROR"));
+      printLine("Carte : "+(document.getElementById("map")?"OK":"ERROR"));
       printLine("Command directory : "+(document.getElementById("commands")?"OK":"ERROR"));
-      printLine("Command console : "+(document.getElementById("console")?"OK":"ERROR"));
+      printLine("Console : "+(document.getElementById("console")?"OK":"ERROR"));
       printLine("Code Lab : "+(document.getElementById("lab")?"OK":"ERROR"));
       printLine("Developer tools : "+(document.getElementById("tools")?"OK":"ERROR"));
       printLine("Security center : "+(document.getElementById("security")?"OK":"ERROR"));
@@ -497,15 +875,14 @@ function runConsole(){
       break;
 
     case "explain":
-      printLine("FORTNITE INFO CONTROL CENTER");
-      printLine("Une interface locale composée de plusieurs sections.");
-      printLine("Dashboard : page principale et accès rapide.");
-      printLine("Commands : répertoire des commandes.");
-      printLine("Console : exécution des commandes locales.");
-      printLine("Code Lab : création d'un brief de projet.");
-      printLine("Developer Tools : outils de texte, JSON et nombres.");
-      printLine("Security Center : conseils de sécurité.");
-      printLine("Settings : personnalisation de l'affichage.");
+      printLine("FORTNITE INFO — ULTIMATE HUB");
+      printLine("Un portail indépendant consacré à Fortnite.");
+      printLine("Accueil : aperçu et accès rapide.");
+      printLine("Actualités : annonces et mises à jour officielles.");
+      printLine("Modes : découverte des expériences Fortnite.");
+      printLine("Compétitif : ressources et tournois.");
+      printLine("Carte : exploration de l'univers.");
+      printLine("Tools : outils informatiques intégrés.");
       break;
 
     case "optimize":
@@ -513,42 +890,46 @@ function runConsole(){
       printLine("1. Ferme les onglets inutilisés.");
       printLine("2. Garde ton navigateur à jour.");
       printLine("3. Évite d'ouvrir trop d'applications en même temps.");
-      printLine("4. Utilise Reduced Motion si tu préfères moins d'animations.");
+      printLine("4. Utilise Reduced Motion pour moins d'animations.");
       printLine("5. Utilise Compact Mode pour réduire l'espace visuel.");
       break;
 
     case "review":
       printLine("FEATURE REVIEW");
-      printLine("Interface : FORTNITE INFO CONTROL CENTER");
-      printLine("Version : 2.2.0");
-      printLine("Sections : 8");
+      printLine("Interface : FORTNITE INFO");
+      printLine("Version : 3.0.0");
+      printLine("Pages Fortnite : 5");
       printLine("Commandes personnalisées : 10");
-      printLine("Outils : analyse de texte, JSON, conversion numérique et heure.");
+      printLine("Outils : console, code lab, analyse texte, JSON et conversion.");
       printLine("Navigation : opérationnelle.");
       break;
 
     case "build":
       printLine("BUILD INFORMATION");
       printLine("Nom : FORTNITE INFO");
-      printLine("Version : 2.2.0");
+      printLine("Version : 3.0.0");
       printLine("Technologies : HTML / CSS / JavaScript");
       printLine("Mode : local");
-      printLine("Build : CONTROL CENTER");
+      printLine("Build : ULTIMATE FORTNITE HUB");
       break;
 
     case "status":
       printLine("SYSTEM STATUS");
       printLine("Interface : ONLINE");
       printLine("Navigation : READY");
-      printLine("Modules : 7 disponibles");
+      printLine("Pages Fortnite : 5");
       printLine("Commandes : 10 disponibles");
-      printLine("Build : 2.2.0");
+      printLine("Build : 3.0.0");
       printLine("Mode : LOCAL");
       break;
 
     case "reset":
     case "clear":
-      consoleOutput.textContent="FORTNITE INFO CONSOLE v2.2\nConsole réinitialisée.\nTape /help pour voir les commandes disponibles.\n----------------------------------------";
+      consoleOutput.textContent=
+        "FORTNITE INFO CONSOLE v3.0\n"+
+        "Console réinitialisée.\n"+
+        'Tape "/help" pour voir les commandes disponibles.\n'+
+        "----------------------------------------";
       break;
 
     case "time":
@@ -556,8 +937,8 @@ function runConsole(){
       break;
 
     case "about":
-      printLine("FORTNITE INFO — CONTROL CENTER v2.2.0");
-      printLine("Interface de démonstration locale.");
+      printLine("FORTNITE INFO — ULTIMATE HUB v3.0.0");
+      printLine("Portail indépendant consacré à Fortnite.");
       break;
 
     default:
@@ -573,6 +954,7 @@ consoleInput.addEventListener("keydown",event=>{
   if(event.key==="Enter")runConsole();
 });
 
+/* PROJECT GENERATOR */
 document.getElementById("generateProject").addEventListener("click",()=>{
   const name=document.getElementById("projectName").value.trim()||"Projet sans nom";
   const type=document.getElementById("projectType").value;
@@ -599,6 +981,7 @@ document.getElementById("copyProject").addEventListener("click",async()=>{
   setTimeout(()=>button.textContent="Copier le brief",1500);
 });
 
+/* TEXT ANALYZER */
 const textInput=document.getElementById("textInput");
 
 textInput.addEventListener("input",()=>{
@@ -610,6 +993,7 @@ textInput.addEventListener("input",()=>{
     text.length+" caractères · "+words+" mots · "+lines+" lignes";
 });
 
+/* JSON FORMATTER */
 document.getElementById("formatJson").addEventListener("click",()=>{
   const result=document.getElementById("jsonResult");
 
@@ -621,6 +1005,7 @@ document.getElementById("formatJson").addEventListener("click",()=>{
   }
 });
 
+/* NUMBER CONVERTER */
 document.getElementById("numberInput").addEventListener("input",()=>{
   const value=document.getElementById("numberInput").value;
   const result=document.getElementById("numberResult");
@@ -636,6 +1021,7 @@ document.getElementById("numberInput").addEventListener("input",()=>{
     "\nBINARY : "+number.toString(2);
 });
 
+/* SETTINGS */
 document.getElementById("compactMode").addEventListener("change",event=>{
   document.body.classList.toggle("compact",event.target.checked);
 });
