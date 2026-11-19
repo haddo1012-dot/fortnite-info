@@ -4,163 +4,549 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FORTNITE INFO : statut des serveurs Fortnite, incidents, maintenances et actualités.">
-<title>FORTNITE INFO</title>
+<meta name="theme-color" content="#080b18">
+<meta name="description" content="Fortnite Info : statut des serveurs, incidents, maintenances et actualités Fortnite.">
+<title>FORTNITE INFO — Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#080d1b;color:white;font-family:Arial,sans-serif}
-header{text-align:center;padding:38px 15px;background:linear-gradient(135deg,#101d43,#182c63,#5425a5);border-bottom:2px solid #36c9ff}
-.logo{font-size:35px;font-weight:900;letter-spacing:2px}
-.logo span{color:#40d5ff}
-header p{color:#d5e6ff}
-main{max-width:900px;margin:25px auto;padding:0 15px}
-.card{background:#121c32;border:1px solid #273b60;border-radius:15px;padding:20px;margin-bottom:17px;box-shadow:0 5px 20px #0004}
-h2{margin-top:0;color:#55d5ff;font-size:21px}
-.status{font-size:22px;font-weight:bold;margin:12px 0}
-.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:9px;background:#aaa}
-.good{background:#27dc83}.bad{background:#ff4d67}.warn{background:#ffbf45}
-small,.muted{color:#aab9d2}
-button,.link{display:inline-block;border:0;border-radius:9px;padding:12px 17px;background:#267ce8;color:white;font-weight:bold;text-decoration:none;cursor:pointer;margin:5px 4px 5px 0}
-button:hover,.link:hover{background:#4598ff}
-.item{padding:12px 0;border-bottom:1px solid #293650}
-.item:last-child{border:0}
-footer{text-align:center;padding:25px;color:#8fa1bd;font-size:13px}
+:root{
+  --bg:#080b18;
+  --panel:#11182b;
+  --panel2:#151f38;
+  --line:rgba(255,255,255,.09);
+  --text:#f4f6ff;
+  --muted:#929bb5;
+  --blue:#4d8dff;
+  --purple:#9664ff;
+  --green:#35dfa0;
+  --yellow:#ffc45c;
+  --red:#ff617b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(ellipse at 15% 0%,rgba(77,141,255,.17),transparent 38%),
+    radial-gradient(ellipse at 90% 15%,rgba(150,100,255,.13),transparent 35%),
+    var(--bg);
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.container{width:min(1120px,92%);margin:auto}
+header{
+  position:sticky;top:0;z-index:10;
+  background:rgba(8,11,24,.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  min-height:72px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px;
+}
+.logo{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.5px}
+.logo-icon{
+  width:39px;height:39px;border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 5px 25px rgba(77,141,255,.3);
+  font-size:20px;
+}
+.logo span:last-child{font-size:15px}
+.nav-links{display:flex;gap:23px;color:var(--muted);font-size:13px;font-weight:600}
+.nav-links a:hover{color:white}
+.hero{padding:65px 0 35px;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(77,141,255,.3);
+  background:rgba(77,141,255,.09);
+  color:#9ec2ff;border-radius:30px;
+  padding:8px 13px;font-size:11px;font-weight:800;
+  letter-spacing:1.5px;
+}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+h1{
+  font-size:clamp(36px,7vw,68px);
+  line-height:1.05;letter-spacing:-3px;
+  margin:22px 0 14px;font-weight:900;
+}
+.gradient{
+  background:linear-gradient(90deg,#65a5ff,#a77aff,#e18aff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{max-width:590px;margin:auto;color:var(--muted);font-size:14px;line-height:1.8}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{
+  border:1px solid var(--line);border-radius:12px;
+  padding:12px 17px;font-size:12px;font-weight:800;
+  cursor:pointer;transition:.2s;
+}
+.btn-primary{background:linear-gradient(110deg,var(--blue),var(--purple));color:white;border:0}
+.btn-secondary{background:rgba(255,255,255,.04);color:white}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.btn:disabled{opacity:.5;cursor:wait;transform:none}
+.section{padding:28px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:17px}
+.section-head h2{font-size:19px;font-weight:850;letter-spacing:-.5px}
+.section-head p{color:var(--muted);font-size:11px;margin-top:5px}
+.small-label{font-size:10px;color:var(--muted);font-weight:700}
+.status-main{
+  position:relative;overflow:hidden;
+  padding:25px;border-radius:22px;
+  background:linear-gradient(120deg,rgba(31,58,105,.8),rgba(30,25,67,.8));
+  border:1px solid rgba(117,151,255,.22);
+  box-shadow:0 15px 55px rgba(0,0,0,.2);
+}
+.status-main:after{
+  content:"";position:absolute;width:240px;height:240px;
+  border-radius:50%;right:-80px;top:-130px;
+  background:rgba(102,139,255,.14);filter:blur(10px);
+}
+.status-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.status-left{display:flex;align-items:center;gap:17px}
+.status-icon{
+  width:55px;height:55px;border-radius:17px;
+  display:grid;place-items:center;font-size:25px;
+  color:var(--green);background:rgba(53,223,160,.12);
+}
+.status-title{font-size:19px;font-weight:850}
+.status-description{font-size:12px;color:#b1bdd7;margin-top:7px;line-height:1.5}
+.status-tag{
+  display:inline-block;margin-top:11px;
+  color:var(--green);background:rgba(53,223,160,.12);
+  border:1px solid rgba(53,223,160,.2);
+  padding:6px 9px;border-radius:7px;
+  font-size:9px;font-weight:900;letter-spacing:1px;
+}
+.status-tag.warn{color:var(--yellow);background:rgba(255,196,92,.1)}
+.status-tag.bad{color:var(--red);background:rgba(255,97,123,.1)}
+.status-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:15px;border-top:1px solid var(--line)}
+.status-foot span{font-size:10px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{
+  padding:19px;border-radius:17px;
+  background:linear-gradient(145deg,rgba(21,31,56,.94),rgba(15,21,39,.94));
+  border:1px solid var(--line);
+  transition:.2s;min-width:0;
+}
+.card:hover{border-color:rgba(105,145,255,.35);transform:translateY(-3px)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card-icon{
+  width:37px;height:37px;border-radius:11px;
+  display:grid;place-items:center;background:rgba(77,141,255,.12);
+  font-size:17px;
+}
+.card h3{font-size:13px;margin-top:15px}
+.card p{font-size:11px;color:var(--muted);line-height:1.6;margin-top:7px}
+.card-number{font-size:24px;font-weight:900;margin-top:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.list{display:grid;gap:10px}
+.item{
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--line);border-radius:13px;
+  padding:15px;
+}
+.item strong{font-size:12px;display:block;line-height:1.5}
+.item p{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.6}
+.empty{
+  padding:22px;text-align:center;border:1px dashed var(--line);
+  border-radius:13px;color:var(--muted);font-size:12px;line-height:1.7;
+}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.news-card{
+  min-height:150px;padding:19px;border-radius:17px;
+  background:linear-gradient(145deg,#182849,#171a36);
+  border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;
+  transition:.2s;
+}
+.news-card:hover{transform:translateY(-3px);border-color:rgba(150,100,255,.5)}
+.news-card .news-icon{font-size:24px}
+.news-card h3{font-size:14px;margin-top:18px}
+.news-card p{font-size:10px;color:var(--muted);margin-top:7px}
+.news-card span{font-size:10px;color:#9ebeff;font-weight:800;margin-top:15px}
+.links-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.link-card{
+  padding:15px;border-radius:13px;background:rgba(255,255,255,.035);
+  border:1px solid var(--line);font-size:11px;font-weight:800;
+  transition:.2s;display:flex;align-items:center;gap:10px;
+}
+.link-card:hover{background:rgba(77,141,255,.1);border-color:rgba(77,141,255,.4)}
+.link-card span{font-size:18px}
+footer{margin-top:35px;border-top:1px solid var(--line);padding:25px 0 35px;text-align:center}
+footer p{font-size:10px;color:var(--muted);line-height:1.8}
+footer strong{color:#c6d5ff}
+#toast{
+  position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);
+  opacity:0;pointer-events:none;z-index:20;
+  background:#202d4b;border:1px solid rgba(120,160,255,.3);
+  padding:12px 17px;border-radius:12px;font-size:11px;
+  box-shadow:0 10px 35px #0008;transition:.25s;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:750px){
+  .nav-links{gap:12px;font-size:10px}
+  .grid{grid-template-columns:1fr 1fr}
+  .news-grid{grid-template-columns:1fr}
+  .links-grid{grid-template-columns:1fr 1fr}
+  .hero{padding-top:48px}
+}
+@media(max-width:480px){
+  .nav{min-height:62px}
+  .nav-links{gap:9px}
+  .nav-links a{font-size:9px}
+  .logo span:last-child{font-size:12px}
+  .status-content{align-items:flex-start}
+  .status-left{align-items:flex-start;gap:12px}
+  .status-icon{width:43px;height:43px;font-size:20px}
+  .status-title{font-size:15px}
+  .status-main{padding:18px}
+  .grid{grid-template-columns:1fr 1fr;gap:9px}
+  .card{padding:14px}
+  .card h3{font-size:11px}
+  .card p{font-size:10px}
+  .card-number{font-size:20px}
+  h1{letter-spacing:-2px}
+}
 </style>
 </head>
+
 <body>
 <header>
-<div class="logo">FORTNITE <span>INFO</span></div>
-<p>Le centre d'information Fortnite</p>
+  <div class="container nav">
+    <a class="logo" href="#">
+      <span class="logo-icon">⚡</span>
+      <span>FORTNITE INFO</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#status">Statut</a>
+      <a href="#incidents">Incidents</a>
+      <a href="#maintenance">Maintenances</a>
+      <a href="#news">Actualités</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-<section class="card">
-<h2>🟢 Statut des serveurs</h2>
-<div class="status" id="status"><span class="dot"></span>Chargement...</div>
-<p class="muted" id="details">Récupération des informations officielles...</p>
-<button onclick="loadData()">↻ Actualiser</button>
-<p><small id="updated">Dernière vérification : en attente</small></p>
-</section>
+<main class="container">
+  <section class="hero">
+    <div class="eyebrow"><span class="pulse"></span> CENTRE D'INFORMATION</div>
+    <h1>TON UNIVERS <span class="gradient">FORTNITE</span></h1>
+    <p>Retrouve les informations essentielles de Fortnite au même endroit : état des serveurs, incidents, maintenances et liens officiels.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#status">Voir le statut des serveurs ↘</a>
+      <a class="btn btn-secondary" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Actualités officielles ↗</a>
+    </div>
+  </section>
 
-<section class="card">
-<h2>⚠️ Incidents en cours</h2>
-<div id="incidents" class="muted">Chargement...</div>
-</section>
+  <section class="section" id="status">
+    <div class="section-head">
+      <div>
+        <h2>État des serveurs</h2>
+        <p>Informations récupérées depuis le service de statut Epic Games</p>
+      </div>
+      <span class="small-label">LIVE STATUS</span>
+    </div>
 
-<section class="card">
-<h2>🛠️ Maintenances programmées</h2>
-<div id="maintenance" class="muted">Chargement...</div>
-</section>
+    <div class="status-main">
+      <div class="status-content">
+        <div class="status-left">
+          <div class="status-icon" id="statusIcon">✓</div>
+          <div>
+            <div class="status-title" id="statusTitle">Chargement du statut...</div>
+            <div class="status-description" id="statusDescription">Récupération des informations officielles.</div>
+            <span class="status-tag" id="statusTag">CHARGEMENT</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-foot">
+        <span id="updatedAt">En attente des données...</span>
+        <span id="lastCheck">Vérification en cours</span>
+        <button class="btn btn-secondary" id="refreshButton" type="button">↻ Actualiser</button>
+      </div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>📰 Actualités Fortnite</h2>
-<p class="muted">Retrouve les dernières annonces sur les plateformes officielles.</p>
-<a class="link" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Actualités Fortnite</a>
-<a class="link" href="https://status.epicgames.com/" target="_blank" rel="noopener">Statut Epic Games</a>
-<a class="link" href="https://www.fortnite.com/" target="_blank" rel="noopener">Site Fortnite</a>
-</section>
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Centre de contrôle</h2>
+        <p>Résumé des informations disponibles</p>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="card-top"><div class="card-icon">🖥️</div><span class="dot"></span></div>
+        <h3>Services surveillés</h3>
+        <div class="card-number" id="serviceCount">—</div>
+        <p>Nombre de composants répertoriés par Epic Games.</p>
+      </article>
+      <article class="card">
+        <div class="card-top"><div class="card-icon">🚨</div><span class="dot" id="incidentDot"></span></div>
+        <h3>Incidents actifs</h3>
+        <div class="card-number" id="incidentCount">—</div>
+        <p>Incidents non résolus signalés actuellement.</p>
+      </article>
+      <article class="card">
+        <div class="card-top"><div class="card-icon">🛠️</div><span class="dot"></span></div>
+        <h3>Maintenances affichées</h3>
+        <div class="card-number" id="maintenanceCount">—</div>
+        <p>Maintenances programmées non terminées.</p>
+      </article>
+    </div>
+  </section>
 
-<section class="card">
-<h2>ℹ️ À propos</h2>
-<p class="muted">FORTNITE INFO est un site fan indépendant. Il n'est ni affilié ni approuvé par Epic Games.</p>
-</section>
+  <section class="section" id="incidents">
+    <div class="section-head">
+      <div>
+        <h2>🚨 Incidents en cours</h2>
+        <p>Événements signalés par Epic Games</p>
+      </div>
+    </div>
+    <div class="list" id="incidentList">
+      <div class="empty">Chargement des incidents...</div>
+    </div>
+  </section>
+
+  <section class="section" id="maintenance">
+    <div class="section-head">
+      <div>
+        <h2>🛠️ Maintenances à venir</h2>
+        <p>Calendrier communiqué par Epic Games</p>
+      </div>
+    </div>
+    <div class="list" id="maintenanceList">
+      <div class="empty">Chargement des maintenances...</div>
+    </div>
+  </section>
+
+  <section class="section" id="news">
+    <div class="section-head">
+      <div>
+        <h2>📰 Actualités Fortnite</h2>
+        <p>Accès rapide aux informations officielles</p>
+      </div>
+    </div>
+    <div class="news-grid">
+      <a class="news-card" href="https://www.fortnite.com/news" target="_blank" rel="noopener">
+        <div>
+          <div class="news-icon">📰</div>
+          <h3>Dernières actualités</h3>
+          <p>Découvre les annonces et nouveautés du jeu.</p>
+        </div>
+        <span>Lire les actualités ↗</span>
+      </a>
+      <a class="news-card" href="https://www.fortnite.com/news/competitive" target="_blank" rel="noopener">
+        <div>
+          <div class="news-icon">🏆</div>
+          <h3>Fortnite compétitif</h3>
+          <p>Retrouve les informations sur la compétition.</p>
+        </div>
+        <span>Voir les annonces ↗</span>
+      </a>
+      <a class="news-card" href="https://status.epicgames.com/" target="_blank" rel="noopener">
+        <div>
+          <div class="news-icon">📡</div>
+          <h3>Statut officiel Epic</h3>
+          <p>Consulte directement la page de statut Epic Games.</p>
+        </div>
+        <span>Ouvrir le statut ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>🔗 Liens utiles</h2>
+        <p>Les plateformes officielles de Fortnite</p>
+      </div>
+    </div>
+    <div class="links-grid">
+      <a class="link-card" href="https://www.fortnite.com/" target="_blank" rel="noopener"><span>🎮</span> Fortnite</a>
+      <a class="link-card" href="https://www.epicgames.com/" target="_blank" rel="noopener"><span>🎯</span> Epic Games</a>
+      <a class="link-card" href="https://www.fortnite.com/item-shop" target="_blank" rel="noopener"><span>🛒</span> Boutique</a>
+      <a class="link-card" href="https://www.fortnite.com/news" target="_blank" rel="noopener"><span>📢</span> News</a>
+    </div>
+  </section>
 </main>
 
 <footer>
-FORTNITE INFO © 2026 — Site fan indépendant
+  <div class="container">
+    <p><strong>FORTNITE INFO</strong> — Site indépendant créé par des fans.</p>
+    <p>Ce site n'est ni affilié, ni approuvé par Epic Games.</p>
+    <p>Fortnite et Epic Games sont des marques de leurs propriétaires respectifs.</p>
+    <p style="margin-top:10px">Données de statut fournies par l'API publique Epic Games Status.</p>
+  </div>
 </footer>
 
+<div id="toast">Actualisation...</div>
+
 <script>
-const API="https://status.epicgames.com/api/v2";
+const API_SUMMARY = "https://status.epicgames.com/api/v2/summary.json";
+const API_MAINTENANCE = "https://status.epicgames.com/api/v2/scheduled-maintenances/upcoming.json";
 
-function translateStatus(value){
-const statuses={
-"operational":"Tout fonctionne normalement",
-"degraded_performance":"Performances dégradées",
-"partial_outage":"Panne partielle",
-"major_outage":"Panne majeure",
-"under_maintenance":"En maintenance"
+const $ = id => document.getElementById(id);
+
+const safeText = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
+const dateText = value => {
+  if (!value) return "Date non précisée";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Date non précisée";
+  return new Intl.DateTimeFormat("fr-FR", {
+    dateStyle:"medium",
+    timeStyle:"short"
+  }).format(date);
 };
-return statuses[value]||"État inconnu";
+
+function showToast(message) {
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2500);
 }
 
-function dotClass(value){
-if(value==="operational")return "good";
-if(value==="major_outage"||value==="partial_outage")return "bad";
-return "warn";
+function setStatus(status, description, count) {
+  const healthy = /operational|none|all systems operational/i.test(
+    (status || "") + " " + (description || "")
+  );
+
+  $("statusTitle").textContent = healthy
+    ? "Tous les systèmes sont opérationnels"
+    : "Un état particulier est signalé";
+
+  $("statusDescription").textContent =
+    description || "Consulte la page officielle pour plus de détails.";
+
+  $("statusTag").textContent = healthy ? "OPÉRATIONNEL" : "À SURVEILLER";
+  $("statusTag").className = "status-tag" + (healthy ? "" : " warn");
+
+  $("statusIcon").textContent = healthy ? "✓" : "!";
+  $("statusIcon").style.color = healthy ? "var(--green)" : "var(--yellow)";
+  $("statusIcon").style.background = healthy
+    ? "rgba(53,223,160,.12)"
+    : "rgba(255,196,92,.12)";
+
+  $("serviceCount").textContent = Number.isFinite(count) ? count : "—";
 }
 
-async function getJSON(url){
-const response=await fetch(url,{cache:"no-store"});
-if(!response.ok)throw new Error("Erreur "+response.status);
-return response.json();
+function renderIncidents(incidents) {
+  const el = $("incidentList");
+  $("incidentCount").textContent = incidents.length;
+  $("incidentDot").style.background = incidents.length ? "var(--red)" : "var(--green)";
+
+  if (!incidents.length) {
+    el.innerHTML = '<div class="empty">✓ Aucun incident en cours signalé.</div>';
+    return;
+  }
+
+  el.innerHTML = incidents.map(item => `
+    <article class="item">
+      <strong>${safeText(item.name || "Incident en cours")}</strong>
+      <p>${safeText(item.status || "En cours")} · ${safeText(item.impact || "Impact non précisé")}</p>
+      <p>${safeText(item.shortlink || "")}</p>
+    </article>
+  `).join("");
 }
 
-async function loadData(){
-document.getElementById("status").innerHTML=
-'<span class="dot warn"></span>Actualisation...';
+function renderMaintenances(items) {
+  const el = $("maintenanceList");
+  $("maintenanceCount").textContent = items.length;
 
-try{
-const [summary,upcoming]=await Promise.all([
-getJSON(API+"/summary.json"),
-getJSON(API+"/scheduled-maintenances/upcoming.json")
-]);
+  if (!items.length) {
+    el.innerHTML = '<div class="empty">Aucune maintenance programmée affichée pour le moment.</div>';
+    return;
+  }
 
-const state=summary.status?.indicator||"unknown";
-document.getElementById("status").innerHTML=
-'<span class="dot '+dotClass(state)+'"></span>'+translateStatus(state);
-
-document.getElementById("details").textContent=
-summary.status?.description||"Informations de statut reçues.";
-
-const incidents=summary.incidents||[];
-document.getElementById("incidents").innerHTML=incidents.length
-?incidents.map(item=>`
-<div class="item">
-<strong>${escapeHTML(item.name)}</strong><br>
-<small>${escapeHTML(item.status||"En cours")}</small>
-</div>`).join("")
-:"Aucun incident signalé actuellement.";
-
-const maintenances=upcoming.scheduled_maintenances||[];
-document.getElementById("maintenance").innerHTML=maintenances.length
-?maintenances.map(item=>`
-<div class="item">
-<strong>${escapeHTML(item.name)}</strong><br>
-<small>Début : ${formatDate(item.scheduled_for)}</small><br>
-<small>Fin : ${formatDate(item.scheduled_until)}</small>
-</div>`).join("")
-:"Aucune maintenance programmée annoncée.";
-
-document.getElementById("updated").textContent=
-"Dernière vérification : "+new Date().toLocaleString("fr-FR");
-
-}catch(error){
-document.getElementById("status").innerHTML=
-'<span class="dot warn"></span>Informations indisponibles';
-document.getElementById("details").textContent=
-"Impossible de récupérer les données. Réessaie dans quelques instants.";
-document.getElementById("incidents").textContent=
-"Chargement impossible.";
-document.getElementById("maintenance").textContent=
-"Chargement impossible.";
-}
+  el.innerHTML = items.slice(0, 6).map(item => `
+    <article class="item">
+      <strong>${safeText(item.name || "Maintenance programmée")}</strong>
+      <p>${safeText(item.status || "Programmée")}</p>
+      <p>Début : ${safeText(dateText(item.scheduled_for || item.scheduled_until))}</p>
+    </article>
+  `).join("");
 }
 
-function formatDate(value){
-if(!value)return "Non précisé";
-const date=new Date(value);
-return isNaN(date)?"Non précisé":date.toLocaleString("fr-FR");
+async function loadData() {
+  const button = $("refreshButton");
+  button.disabled = true;
+
+  try {
+    const response = await fetch(API_SUMMARY, {cache:"no-store"});
+    if (!response.ok) throw new Error("Status API unavailable");
+
+    const data = await response.json();
+    const page = data.page || {};
+    const components = data.components || [];
+
+    const active = (data.incidents || []).filter(item =>
+      !["resolved", "completed"].includes(item.status)
+    );
+
+    setStatus(
+      page.status?.indicator || "unknown",
+      page.status?.description || "État officiel reçu.",
+      components.length
+    );
+
+    renderIncidents(active);
+
+    $("updatedAt").textContent = page.updated_at
+      ? "Données mises à jour : " + dateText(page.updated_at)
+      : "Données officielles reçues";
+
+    $("lastCheck").textContent = "Dernière vérification : " +
+      new Intl.DateTimeFormat("fr-FR", {
+        hour:"2-digit", minute:"2-digit"
+      }).format(new Date());
+
+  } catch (error) {
+    $("statusTitle").textContent = "Statut temporairement indisponible";
+    $("statusDescription").textContent =
+      "Impossible de récupérer les données. Réessaie dans un instant.";
+    $("statusTag").textContent = "INDISPONIBLE";
+    $("statusTag").className = "status-tag bad";
+    $("statusIcon").textContent = "!";
+    $("incidentList").innerHTML =
+      '<div class="empty">Impossible de charger les incidents. Consulte le statut officiel Epic Games.</div>';
+    $("incidentCount").textContent = "—";
+    $("serviceCount").textContent = "—";
+    $("lastCheck").textContent = "Échec de la vérification";
+  }
+
+  try {
+    const response = await fetch(API_MAINTENANCE, {cache:"no-store"});
+    if (!response.ok) throw new Error("Maintenance API unavailable");
+
+    const data = await response.json();
+    const items = (data.scheduled_maintenances || []).filter(item =>
+      !["completed", "cancelled"].includes(item.status)
+    );
+
+    renderMaintenances(items);
+
+  } catch (error) {
+    $("maintenanceList").innerHTML =
+      '<div class="empty">Les maintenances ne sont pas disponibles pour le moment.</div>';
+    $("maintenanceCount").textContent = "—";
+  }
+
+  button.disabled = false;
 }
 
-function escapeHTML(value){
-return String(value||"").replace(/[&<>"']/g,char=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-})[char]);
-}
+$("refreshButton").addEventListener("click", () => {
+  showToast("Actualisation des données...");
+  loadData();
+});
 
 loadData();
-setInterval(loadData,60000);
+setInterval(loadData, 60000);
 </script>
 </body>
 </html>
