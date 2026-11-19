@@ -3,179 +3,164 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FORTNITE INFO : statut des serveurs Fortnite, incidents, maintenances et actualités.">
 <title>FORTNITE INFO</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#09090d;color:white;
- font-family:Arial,sans-serif;
-}
-header{
- background:#171019;padding:25px 15px;
- text-align:center;border-bottom:2px solid #ff3030;
-}
-h1{color:#ff3838;font-size:32px;margin:0}
-header p{color:#aaa}
-nav{
- display:flex;justify-content:center;gap:10px;
- flex-wrap:wrap;padding:15px;
-}
-nav a{
- color:white;text-decoration:none;
- background:#222;padding:10px 14px;
- border-radius:8px;
-}
-main{max-width:950px;margin:auto;padding:15px}
-section{
- background:#17171f;border:1px solid #38313c;
- border-radius:14px;padding:20px;margin-bottom:18px;
-}
-h2{color:#ff4545}
-.info{
- background:#24242e;padding:15px;
- border-radius:9px;margin:10px 0;
-}
-button{
- background:#ff3030;color:white;border:0;
- border-radius:8px;padding:12px 18px;
- font-weight:bold;cursor:pointer;
-}
-a{color:#ff7777}
-.small{color:#aaa;font-size:13px}
-footer{text-align:center;padding:25px;color:#888}
+body{margin:0;background:#080d1b;color:white;font-family:Arial,sans-serif}
+header{text-align:center;padding:38px 15px;background:linear-gradient(135deg,#101d43,#182c63,#5425a5);border-bottom:2px solid #36c9ff}
+.logo{font-size:35px;font-weight:900;letter-spacing:2px}
+.logo span{color:#40d5ff}
+header p{color:#d5e6ff}
+main{max-width:900px;margin:25px auto;padding:0 15px}
+.card{background:#121c32;border:1px solid #273b60;border-radius:15px;padding:20px;margin-bottom:17px;box-shadow:0 5px 20px #0004}
+h2{margin-top:0;color:#55d5ff;font-size:21px}
+.status{font-size:22px;font-weight:bold;margin:12px 0}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:9px;background:#aaa}
+.good{background:#27dc83}.bad{background:#ff4d67}.warn{background:#ffbf45}
+small,.muted{color:#aab9d2}
+button,.link{display:inline-block;border:0;border-radius:9px;padding:12px 17px;background:#267ce8;color:white;font-weight:bold;text-decoration:none;cursor:pointer;margin:5px 4px 5px 0}
+button:hover,.link:hover{background:#4598ff}
+.item{padding:12px 0;border-bottom:1px solid #293650}
+.item:last-child{border:0}
+footer{text-align:center;padding:25px;color:#8fa1bd;font-size:13px}
 </style>
 </head>
 <body>
-
 <header>
-<h1>FORTNITE INFO</h1>
-<p>Toutes les informations Fortnite au même endroit</p>
+<div class="logo">FORTNITE <span>INFO</span></div>
+<p>Le centre d'information Fortnite</p>
 </header>
 
-<nav>
-<a href="#serveurs">Serveurs</a>
-<a href="#maintenance">Maintenance</a>
-<a href="#updates">Mises à jour</a>
-<a href="#news">Actualités</a>
-<a href="#liens">Liens utiles</a>
-</nav>
-
 <main>
-
-<section id="serveurs">
-<h2>🟢 État des serveurs</h2>
-<div class="info" id="status">Chargement...</div>
-<button onclick="refresh()">Actualiser</button>
-<p class="small" id="time"></p>
+<section class="card">
+<h2>🟢 Statut des serveurs</h2>
+<div class="status" id="status"><span class="dot"></span>Chargement...</div>
+<p class="muted" id="details">Récupération des informations officielles...</p>
+<button onclick="loadData()">↻ Actualiser</button>
+<p><small id="updated">Dernière vérification : en attente</small></p>
 </section>
 
-<section id="maintenance">
-<h2>🔧 Maintenances</h2>
-<div id="maint">Chargement...</div>
+<section class="card">
+<h2>⚠️ Incidents en cours</h2>
+<div id="incidents" class="muted">Chargement...</div>
 </section>
 
-<section id="updates">
-<h2>🆕 Mises à jour</h2>
-<div class="info">
-Consulte les dernières annonces officielles
-pour connaître les nouveautés et les patch notes.
-</div>
-<a href="https://www.fortnite.com/news" target="_blank">
-Voir les mises à jour →
-</a>
+<section class="card">
+<h2>🛠️ Maintenances programmées</h2>
+<div id="maintenance" class="muted">Chargement...</div>
 </section>
 
-<section id="news">
+<section class="card">
 <h2>📰 Actualités Fortnite</h2>
-<div class="info">
-Retrouve les événements, collaborations et annonces.
-</div>
-<a href="https://www.fortnite.com/news" target="_blank">
-Toutes les actualités →
-</a>
+<p class="muted">Retrouve les dernières annonces sur les plateformes officielles.</p>
+<a class="link" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Actualités Fortnite</a>
+<a class="link" href="https://status.epicgames.com/" target="_blank" rel="noopener">Statut Epic Games</a>
+<a class="link" href="https://www.fortnite.com/" target="_blank" rel="noopener">Site Fortnite</a>
 </section>
 
-<section id="liens">
-<h2>🔗 Liens utiles</h2>
-<div class="info">
-<a href="https://status.epicgames.com/" target="_blank">
-Statut officiel des serveurs Epic Games
-</a>
-</div>
-<div class="info">
-<a href="https://www.fortnite.com/item-shop" target="_blank">
-Boutique Fortnite
-</a>
-</div>
-<div class="info">
-<a href="https://x.com/FortniteStatus" target="_blank">
-Compte Fortnite Status
-</a>
-</div>
+<section class="card">
+<h2>ℹ️ À propos</h2>
+<p class="muted">FORTNITE INFO est un site fan indépendant. Il n'est ni affilié ni approuvé par Epic Games.</p>
 </section>
-
 </main>
 
 <footer>
-FORTNITE INFO © 2026<br>
-Site fan non officiel, indépendant d'Epic Games.
+FORTNITE INFO © 2026 — Site fan indépendant
 </footer>
 
 <script>
-const API="https://status.epicgames.com/api/v2/";
+const API="https://status.epicgames.com/api/v2";
 
-async function getData(url){
- const response=await fetch(API+url);
- if(!response.ok)throw Error("Erreur réseau");
- return response.json();
+function translateStatus(value){
+const statuses={
+"operational":"Tout fonctionne normalement",
+"degraded_performance":"Performances dégradées",
+"partial_outage":"Panne partielle",
+"major_outage":"Panne majeure",
+"under_maintenance":"En maintenance"
+};
+return statuses[value]||"État inconnu";
 }
 
-async function refresh(){
- document.getElementById("status").textContent="Vérification...";
- try{
-  const data=await getData("summary.json");
-  const s=data.status;
-  document.getElementById("status").textContent=
-   s.description || s.indicator;
- }catch(e){
-  document.getElementById("status").textContent=
-   "Statut indisponible. Consulte le site Epic.";
- }
- document.getElementById("time").textContent=
-  "Dernière vérification : "+new Date().toLocaleString("fr-FR");
+function dotClass(value){
+if(value==="operational")return "good";
+if(value==="major_outage"||value==="partial_outage")return "bad";
+return "warn";
 }
 
-async function maintenance(){
- try{
-  const data=await getData("scheduled-maintenances/upcoming.json");
-  const items=(data.scheduled_maintenances||[])
-   .filter(x=>/fortnite/i.test(x.name+" "+(x.description||"")));
-  document.getElementById("maint").innerHTML=items.length?
-   items.map(x=>`<div class="info"><b>${safe(x.name)}</b><br>Début : ${date(x.scheduled_for)}<br>Fin prévue : ${date(x.scheduled_until)}</div>`).join("")
-   :"Aucune maintenance Fortnite annoncée.";
- }catch(e){
-  document.getElementById("maint").textContent=
-   "Informations momentanément indisponibles.";
- }
+async function getJSON(url){
+const response=await fetch(url,{cache:"no-store"});
+if(!response.ok)throw new Error("Erreur "+response.status);
+return response.json();
 }
 
-function safe(s){
- const d=document.createElement("div");
- d.textContent=s||"";
- return d.innerHTML;
+async function loadData(){
+document.getElementById("status").innerHTML=
+'<span class="dot warn"></span>Actualisation...';
+
+try{
+const [summary,upcoming]=await Promise.all([
+getJSON(API+"/summary.json"),
+getJSON(API+"/scheduled-maintenances/upcoming.json")
+]);
+
+const state=summary.status?.indicator||"unknown";
+document.getElementById("status").innerHTML=
+'<span class="dot '+dotClass(state)+'"></span>'+translateStatus(state);
+
+document.getElementById("details").textContent=
+summary.status?.description||"Informations de statut reçues.";
+
+const incidents=summary.incidents||[];
+document.getElementById("incidents").innerHTML=incidents.length
+?incidents.map(item=>`
+<div class="item">
+<strong>${escapeHTML(item.name)}</strong><br>
+<small>${escapeHTML(item.status||"En cours")}</small>
+</div>`).join("")
+:"Aucun incident signalé actuellement.";
+
+const maintenances=upcoming.scheduled_maintenances||[];
+document.getElementById("maintenance").innerHTML=maintenances.length
+?maintenances.map(item=>`
+<div class="item">
+<strong>${escapeHTML(item.name)}</strong><br>
+<small>Début : ${formatDate(item.scheduled_for)}</small><br>
+<small>Fin : ${formatDate(item.scheduled_until)}</small>
+</div>`).join("")
+:"Aucune maintenance programmée annoncée.";
+
+document.getElementById("updated").textContent=
+"Dernière vérification : "+new Date().toLocaleString("fr-FR");
+
+}catch(error){
+document.getElementById("status").innerHTML=
+'<span class="dot warn"></span>Informations indisponibles';
+document.getElementById("details").textContent=
+"Impossible de récupérer les données. Réessaie dans quelques instants.";
+document.getElementById("incidents").textContent=
+"Chargement impossible.";
+document.getElementById("maintenance").textContent=
+"Chargement impossible.";
 }
-function date(d){
- return d?new Date(d).toLocaleString("fr-FR"):"Non communiqué";
 }
 
-async function update(){
- await Promise.all([refresh(),maintenance()]);
+function formatDate(value){
+if(!value)return "Non précisé";
+const date=new Date(value);
+return isNaN(date)?"Non précisé":date.toLocaleString("fr-FR");
 }
 
-update();
-setInterval(update,60000);
+function escapeHTML(value){
+return String(value||"").replace(/[&<>"']/g,char=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+})[char]);
+}
+
+loadData();
+setInterval(loadData,60000);
 </script>
-
 </body>
 </html>
