@@ -4,549 +4,556 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b18">
-<meta name="description" content="Fortnite Info : statut des serveurs, incidents, maintenances et actualités Fortnite.">
-<title>FORTNITE INFO — Dashboard</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#09090c">
+<title>FORTNITE INFO — CONTROL CENTER</title>
 
 <style>
-:root{
-  --bg:#080b18;
-  --panel:#11182b;
-  --panel2:#151f38;
-  --line:rgba(255,255,255,.09);
-  --text:#f4f6ff;
-  --muted:#929bb5;
-  --blue:#4d8dff;
-  --purple:#9664ff;
-  --green:#35dfa0;
-  --yellow:#ffc45c;
-  --red:#ff617b;
+:root {
+  --bg:#08090d;
+  --panel:#111218;
+  --panel2:#171820;
+  --red:#ff263d;
+  --text:#f4f4f6;
+  --muted:#858795;
+  --border:rgba(255,255,255,.08);
+  --glow:0 0 25px rgba(255,38,61,.15);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+*{box-sizing:border-box}
 body{
-  font-family:Inter,Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(ellipse at 15% 0%,rgba(77,141,255,.17),transparent 38%),
-    radial-gradient(ellipse at 90% 15%,rgba(150,100,255,.13),transparent 35%),
-    var(--bg);
-  min-height:100vh;
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,Arial,sans-serif;min-height:100vh;
 }
-a{color:inherit;text-decoration:none}
-button{font:inherit}
-.container{width:min(1120px,92%);margin:auto}
-header{
-  position:sticky;top:0;z-index:10;
-  background:rgba(8,11,24,.82);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;background:#0c0d12;border-right:1px solid var(--border);
+  padding:25px 16px;display:flex;flex-direction:column;
+  position:fixed;inset:0 auto 0 0;z-index:10;
 }
-.nav{
-  min-height:72px;display:flex;align-items:center;
-  justify-content:space-between;gap:16px;
-}
-.logo{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.5px}
-.logo-icon{
-  width:39px;height:39px;border-radius:12px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  box-shadow:0 5px 25px rgba(77,141,255,.3);
-  font-size:20px;
-}
-.logo span:last-child{font-size:15px}
-.nav-links{display:flex;gap:23px;color:var(--muted);font-size:13px;font-weight:600}
-.nav-links a:hover{color:white}
-.hero{padding:65px 0 35px;text-align:center}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid rgba(77,141,255,.3);
-  background:rgba(77,141,255,.09);
-  color:#9ec2ff;border-radius:30px;
-  padding:8px 13px;font-size:11px;font-weight:800;
-  letter-spacing:1.5px;
-}
-.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
-h1{
-  font-size:clamp(36px,7vw,68px);
-  line-height:1.05;letter-spacing:-3px;
-  margin:22px 0 14px;font-weight:900;
-}
-.gradient{
-  background:linear-gradient(90deg,#65a5ff,#a77aff,#e18aff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.hero p{max-width:590px;margin:auto;color:var(--muted);font-size:14px;line-height:1.8}
-.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px}
-.btn{
-  border:1px solid var(--line);border-radius:12px;
-  padding:12px 17px;font-size:12px;font-weight:800;
-  cursor:pointer;transition:.2s;
-}
-.btn-primary{background:linear-gradient(110deg,var(--blue),var(--purple));color:white;border:0}
-.btn-secondary{background:rgba(255,255,255,.04);color:white}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}
-.btn:disabled{opacity:.5;cursor:wait;transform:none}
-.section{padding:28px 0}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:17px}
-.section-head h2{font-size:19px;font-weight:850;letter-spacing:-.5px}
-.section-head p{color:var(--muted);font-size:11px;margin-top:5px}
-.small-label{font-size:10px;color:var(--muted);font-weight:700}
-.status-main{
-  position:relative;overflow:hidden;
-  padding:25px;border-radius:22px;
-  background:linear-gradient(120deg,rgba(31,58,105,.8),rgba(30,25,67,.8));
-  border:1px solid rgba(117,151,255,.22);
-  box-shadow:0 15px 55px rgba(0,0,0,.2);
-}
-.status-main:after{
-  content:"";position:absolute;width:240px;height:240px;
-  border-radius:50%;right:-80px;top:-130px;
-  background:rgba(102,139,255,.14);filter:blur(10px);
-}
-.status-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.status-left{display:flex;align-items:center;gap:17px}
-.status-icon{
-  width:55px;height:55px;border-radius:17px;
-  display:grid;place-items:center;font-size:25px;
-  color:var(--green);background:rgba(53,223,160,.12);
-}
-.status-title{font-size:19px;font-weight:850}
-.status-description{font-size:12px;color:#b1bdd7;margin-top:7px;line-height:1.5}
-.status-tag{
-  display:inline-block;margin-top:11px;
-  color:var(--green);background:rgba(53,223,160,.12);
-  border:1px solid rgba(53,223,160,.2);
-  padding:6px 9px;border-radius:7px;
-  font-size:9px;font-weight:900;letter-spacing:1px;
-}
-.status-tag.warn{color:var(--yellow);background:rgba(255,196,92,.1)}
-.status-tag.bad{color:var(--red);background:rgba(255,97,123,.1)}
-.status-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:15px;border-top:1px solid var(--line)}
-.status-foot span{font-size:10px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{
-  padding:19px;border-radius:17px;
-  background:linear-gradient(145deg,rgba(21,31,56,.94),rgba(15,21,39,.94));
-  border:1px solid var(--line);
-  transition:.2s;min-width:0;
-}
-.card:hover{border-color:rgba(105,145,255,.35);transform:translateY(-3px)}
-.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.card-icon{
-  width:37px;height:37px;border-radius:11px;
-  display:grid;place-items:center;background:rgba(77,141,255,.12);
-  font-size:17px;
-}
-.card h3{font-size:13px;margin-top:15px}
-.card p{font-size:11px;color:var(--muted);line-height:1.6;margin-top:7px}
-.card-number{font-size:24px;font-weight:900;margin-top:12px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
-.list{display:grid;gap:10px}
-.item{
-  background:rgba(255,255,255,.025);
-  border:1px solid var(--line);border-radius:13px;
-  padding:15px;
-}
-.item strong{font-size:12px;display:block;line-height:1.5}
-.item p{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.6}
-.empty{
-  padding:22px;text-align:center;border:1px dashed var(--line);
-  border-radius:13px;color:var(--muted);font-size:12px;line-height:1.7;
-}
-.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.news-card{
-  min-height:150px;padding:19px;border-radius:17px;
-  background:linear-gradient(145deg,#182849,#171a36);
-  border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;
+.brand{padding:5px 12px 30px}
+.brand-name{font-size:21px;font-weight:950;letter-spacing:2px}
+.brand-name span{color:var(--red)}
+.brand-sub{font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:7px}
+.nav-label{font-size:9px;color:#666976;letter-spacing:2px;padding:15px 12px 9px}
+.nav-btn{
+  display:flex;align-items:center;gap:12px;width:100%;padding:12px;
+  margin:3px 0;background:transparent;border:1px solid transparent;
+  border-radius:9px;color:#a5a7b1;text-align:left;font-size:12px;
   transition:.2s;
 }
-.news-card:hover{transform:translateY(-3px);border-color:rgba(150,100,255,.5)}
-.news-card .news-icon{font-size:24px}
-.news-card h3{font-size:14px;margin-top:18px}
-.news-card p{font-size:10px;color:var(--muted);margin-top:7px}
-.news-card span{font-size:10px;color:#9ebeff;font-weight:800;margin-top:15px}
-.links-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.link-card{
-  padding:15px;border-radius:13px;background:rgba(255,255,255,.035);
-  border:1px solid var(--line);font-size:11px;font-weight:800;
-  transition:.2s;display:flex;align-items:center;gap:10px;
+.nav-btn:hover,.nav-btn.active{
+  background:rgba(255,38,61,.09);border-color:rgba(255,38,61,.2);
+  color:white;
 }
-.link-card:hover{background:rgba(77,141,255,.1);border-color:rgba(77,141,255,.4)}
-.link-card span{font-size:18px}
-footer{margin-top:35px;border-top:1px solid var(--line);padding:25px 0 35px;text-align:center}
-footer p{font-size:10px;color:var(--muted);line-height:1.8}
-footer strong{color:#c6d5ff}
-#toast{
-  position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);
-  opacity:0;pointer-events:none;z-index:20;
-  background:#202d4b;border:1px solid rgba(120,160,255,.3);
-  padding:12px 17px;border-radius:12px;font-size:11px;
-  box-shadow:0 10px 35px #0008;transition:.25s;
+.nav-btn.active{box-shadow:inset 3px 0 var(--red)}
+.nav-icon{width:19px;text-align:center;color:var(--red);font-size:15px}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding:17px 10px 0}
+.online{font-size:10px;color:#7ddba1;letter-spacing:1px}
+.online:before{content:"";display:inline-block;width:7px;height:7px;
+background:#55dc87;border-radius:50%;margin-right:8px;box-shadow:0 0 9px #55dc87}
+.version{font-size:9px;color:#666976;margin-top:9px}
+.main{margin-left:245px;width:calc(100% - 245px);padding:27px 34px 45px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.breadcrumb{font-size:11px;color:var(--muted);letter-spacing:1px}
+.breadcrumb b{color:var(--red)}
+.top-right{display:flex;align-items:center;gap:13px}
+.clock{font-size:11px;color:#b8bac4;font-variant-numeric:tabular-nums}
+.status-pill{border:1px solid rgba(85,220,135,.25);background:rgba(85,220,135,.07);
+color:#7ddba1;padding:8px 11px;border-radius:30px;font-size:9px;letter-spacing:1px}
+.mobile-menu{display:none;background:var(--panel);border:1px solid var(--border);
+color:white;padding:9px 12px;border-radius:8px}
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.hero{
+  padding:30px;border:1px solid rgba(255,38,61,.22);border-radius:15px;
+  background:linear-gradient(115deg,rgba(255,38,61,.13),transparent 55%),#111218;
+  position:relative;overflow:hidden;box-shadow:var(--glow);
 }
-#toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:750px){
-  .nav-links{gap:12px;font-size:10px}
-  .grid{grid-template-columns:1fr 1fr}
-  .news-grid{grid-template-columns:1fr}
-  .links-grid{grid-template-columns:1fr 1fr}
-  .hero{padding-top:48px}
+.hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,38,61,.15);
+border-radius:50%;right:-65px;top:-100px;box-shadow:0 0 0 25px rgba(255,38,61,.025),0 0 0 55px rgba(255,38,61,.02)}
+.eyebrow{font-size:9px;letter-spacing:3px;color:var(--red);font-weight:bold}
+.hero h1{font-size:clamp(26px,4vw,43px);margin:13px 0 8px;letter-spacing:-1px}
+.hero h1 span{color:var(--red)}
+.hero p{font-size:12px;color:#a5a7b1;line-height:1.7;max-width:540px}
+.hero-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.btn{padding:11px 16px;border-radius:8px;border:1px solid var(--border);
+background:#1a1b23;color:white;font-size:11px;font-weight:700}
+.btn.primary{background:var(--red);border-color:var(--red);color:white}
+.btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:27px 0 13px}
+.section-head h2{font-size:12px;letter-spacing:2px;margin:0}
+.section-head span{font-size:9px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.stat,.card{
+  background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:17px;
 }
-@media(max-width:480px){
-  .nav{min-height:62px}
-  .nav-links{gap:9px}
-  .nav-links a{font-size:9px}
-  .logo span:last-child{font-size:12px}
-  .status-content{align-items:flex-start}
-  .status-left{align-items:flex-start;gap:12px}
-  .status-icon{width:43px;height:43px;font-size:20px}
-  .status-title{font-size:15px}
-  .status-main{padding:18px}
-  .grid{grid-template-columns:1fr 1fr;gap:9px}
-  .card{padding:14px}
-  .card h3{font-size:11px}
-  .card p{font-size:10px}
-  .card-number{font-size:20px}
-  h1{letter-spacing:-2px}
+.stat-label{font-size:9px;color:var(--muted);letter-spacing:1px}
+.stat-value{font-size:25px;font-weight:850;margin:12px 0 5px}
+.stat-note{font-size:9px;color:#777987}
+.red{color:var(--red)}
+.content-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+.card h3{font-size:11px;letter-spacing:1px;margin:0 0 16px}
+.activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.activity:last-child{border:0}
+.activity-dot{width:7px;height:7px;background:var(--red);border-radius:50%;margin-top:4px;flex-shrink:0}
+.activity strong{font-size:11px;display:block}
+.activity small{font-size:9px;color:var(--muted);display:block;margin-top:5px}
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.quick{
+  border:1px solid var(--border);background:#171820;color:white;padding:14px;
+  text-align:left;border-radius:9px;transition:.2s;
+}
+.quick:hover{border-color:var(--red);background:rgba(255,38,61,.07)}
+.quick b{display:block;font-size:11px;margin-bottom:6px}
+.quick small{font-size:9px;color:var(--muted)}
+.page-title{font-size:25px;margin:5px 0 8px}
+.page-desc{font-size:11px;color:var(--muted);margin-bottom:23px;line-height:1.6}
+.command-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.command{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:17px}
+.command code{color:var(--red);font-size:13px;font-weight:bold}
+.command p{font-size:10px;color:var(--muted);line-height:1.6}
+.command button{background:#20212a;border:1px solid var(--border);color:white;
+padding:8px 10px;border-radius:6px;font-size:9px}
+.field{width:100%;background:#090a0f;color:white;border:1px solid var(--border);
+border-radius:8px;padding:12px;outline:none;font-size:11px;margin:7px 0 13px}
+.field:focus{border-color:var(--red)}
+textarea.field{min-height:130px;resize:vertical}
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.result{background:#090a0f;border:1px solid var(--border);padding:12px;
+border-radius:8px;color:#8fe3a8;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere;min-height:35px}
+.console{background:#07080b;border:1px solid rgba(255,38,61,.2);border-radius:10px;padding:16px}
+.console-output{height:190px;overflow:auto;font-family:monospace;font-size:10px;
+line-height:1.8;color:#b8bac4;white-space:pre-wrap}
+.console-line{display:flex;gap:8px;align-items:center;border-top:1px solid var(--border);padding-top:10px}
+.console-line span{color:var(--red);font-family:monospace}
+.console-line input{flex:1;min-width:0;background:transparent;border:0;color:white;outline:0;font-size:11px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;
+border-bottom:1px solid var(--border)}
+.setting-row strong{font-size:11px}
+.setting-row small{display:block;color:var(--muted);font-size:9px;margin-top:5px}
+.switch{accent-color:var(--red);width:17px;height:17px}
+.footer{text-align:center;color:#555865;font-size:9px;margin-top:40px;letter-spacing:1px}
+.notice{font-size:10px;color:var(--muted);line-height:1.7;margin-top:12px}
+body.compact .card,body.compact .stat{padding:11px}
+body.reduce-motion *,body.reduce-motion *:before{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media(max-width:900px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .command-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+ .sidebar{transform:translateX(-100%);transition:.25s;width:260px;box-shadow:20px 0 50px #000}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin:0;width:100%;padding:18px 15px 35px}
+ .mobile-menu{display:block}
+ .topbar{gap:10px}
+ .top-right{gap:7px}
+ .status-pill{display:none}
+ .hero{padding:22px}
+ .stats{gap:8px}
+ .stat{padding:13px}
+ .stat-value{font-size:21px}
+ .content-grid,.tool-grid{grid-template-columns:1fr}
+ .command-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:390px){
+ .command-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
-<header>
-  <div class="container nav">
-    <a class="logo" href="#">
-      <span class="logo-icon">⚡</span>
-      <span>FORTNITE INFO</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#status">Statut</a>
-      <a href="#incidents">Incidents</a>
-      <a href="#maintenance">Maintenances</a>
-      <a href="#news">Actualités</a>
-    </nav>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-name">FORTNITE INFO<span>.</span></div>
+    <div class="brand-sub">CONTROL CENTER</div>
   </div>
-</header>
 
-<main class="container">
-  <section class="hero">
-    <div class="eyebrow"><span class="pulse"></span> CENTRE D'INFORMATION</div>
-    <h1>TON UNIVERS <span class="gradient">FORTNITE</span></h1>
-    <p>Retrouve les informations essentielles de Fortnite au même endroit : état des serveurs, incidents, maintenances et liens officiels.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#status">Voir le statut des serveurs ↘</a>
-      <a class="btn btn-secondary" href="https://www.fortnite.com/news" target="_blank" rel="noopener">Actualités officielles ↗</a>
+  <div class="nav-label">WORKSPACE</div>
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+  <button class="nav-btn" data-page="commands"><span class="nav-icon">⌘</span>Command directory</button>
+  <button class="nav-btn" data-page="console"><span class="nav-icon">›_</span>Command console</button>
+
+  <div class="nav-label">DEVELOPMENT</div>
+  <button class="nav-btn" data-page="lab"><span class="nav-icon">⌘</span>Code lab</button>
+  <button class="nav-btn" data-page="tools"><span class="nav-icon">⚙</span>Developer tools</button>
+
+  <div class="nav-label">SYSTEM</div>
+  <button class="nav-btn" data-page="security"><span class="nav-icon">◇</span>Security center</button>
+  <button class="nav-btn" data-page="settings"><span class="nav-icon">☷</span>Settings</button>
+  <button class="nav-btn" data-page="about"><span class="nav-icon">ⓘ</span>About Fortnite Info</button>
+
+  <div class="sidebar-bottom">
+    <div class="online">INTERFACE ONLINE</div>
+    <div class="version">FORTNITE INFO BUILD 2.2.0</div>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="mobile-menu" id="menuBtn" aria-label="Ouvrir le menu">☰</button>
+      <div class="breadcrumb">FORTNITE INFO / <b id="crumb">DASHBOARD</b></div>
     </div>
-  </section>
+    <div class="top-right">
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="status-pill">● SYSTEM READY</div>
+    </div>
+  </header>
 
-  <section class="section" id="status">
-    <div class="section-head">
-      <div>
-        <h2>État des serveurs</h2>
-        <p>Informations récupérées depuis le service de statut Epic Games</p>
+  <section class="page active" id="dashboard">
+    <div class="hero">
+      <div class="eyebrow">WELCOME TO THE CONTROL CENTER</div>
+      <h1>TAKE CONTROL OF <span>YOUR SPACE.</span></h1>
+      <p>Un espace de commande moderne pour organiser tes projets, tester tes idées et accéder rapidement à tes outils.</p>
+      <div class="hero-actions">
+        <button class="btn primary" data-go="commands">Explorer les commandes ↗</button>
+        <button class="btn" data-go="tools">Ouvrir les outils</button>
       </div>
-      <span class="small-label">LIVE STATUS</span>
     </div>
 
-    <div class="status-main">
-      <div class="status-content">
-        <div class="status-left">
-          <div class="status-icon" id="statusIcon">✓</div>
-          <div>
-            <div class="status-title" id="statusTitle">Chargement du statut...</div>
-            <div class="status-description" id="statusDescription">Récupération des informations officielles.</div>
-            <span class="status-tag" id="statusTag">CHARGEMENT</span>
-          </div>
+    <div class="section-head"><h2>OVERVIEW</h2><span>LOCAL INTERFACE</span></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">INTERFACE</div><div class="stat-value red">ONLINE</div><div class="stat-note">Page opérationnelle</div></div>
+      <div class="stat"><div class="stat-label">MODULES</div><div class="stat-value">07</div><div class="stat-note">Sections disponibles</div></div>
+      <div class="stat"><div class="stat-label">COMMANDS</div><div class="stat-value">10</div><div class="stat-note">Raccourcis informatifs</div></div>
+      <div class="stat"><div class="stat-label">BUILD</div><div class="stat-value">2.2</div><div class="stat-note">CONTROL CENTER</div></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="section-head"><h2>RECENT ACTIVITY</h2><span>LOCAL</span></div>
+        <div class="card">
+          <div class="activity"><div class="activity-dot"></div><div><strong>Interface initialisée</strong><small>Le centre de commande est prêt.</small></div></div>
+          <div class="activity"><div class="activity-dot"></div><div><strong>Modules chargés</strong><small>Les outils locaux sont disponibles.</small></div></div>
+          <div class="activity"><div class="activity-dot"></div><div><strong>Thème activé</strong><small>Thème sombre et rouge appliqué.</small></div></div>
         </div>
       </div>
-      <div class="status-foot">
-        <span id="updatedAt">En attente des données...</span>
-        <span id="lastCheck">Vérification en cours</span>
-        <button class="btn btn-secondary" id="refreshButton" type="button">↻ Actualiser</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head">
       <div>
-        <h2>Centre de contrôle</h2>
-        <p>Résumé des informations disponibles</p>
-      </div>
-    </div>
-    <div class="grid">
-      <article class="card">
-        <div class="card-top"><div class="card-icon">🖥️</div><span class="dot"></span></div>
-        <h3>Services surveillés</h3>
-        <div class="card-number" id="serviceCount">—</div>
-        <p>Nombre de composants répertoriés par Epic Games.</p>
-      </article>
-      <article class="card">
-        <div class="card-top"><div class="card-icon">🚨</div><span class="dot" id="incidentDot"></span></div>
-        <h3>Incidents actifs</h3>
-        <div class="card-number" id="incidentCount">—</div>
-        <p>Incidents non résolus signalés actuellement.</p>
-      </article>
-      <article class="card">
-        <div class="card-top"><div class="card-icon">🛠️</div><span class="dot"></span></div>
-        <h3>Maintenances affichées</h3>
-        <div class="card-number" id="maintenanceCount">—</div>
-        <p>Maintenances programmées non terminées.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section" id="incidents">
-    <div class="section-head">
-      <div>
-        <h2>🚨 Incidents en cours</h2>
-        <p>Événements signalés par Epic Games</p>
-      </div>
-    </div>
-    <div class="list" id="incidentList">
-      <div class="empty">Chargement des incidents...</div>
-    </div>
-  </section>
-
-  <section class="section" id="maintenance">
-    <div class="section-head">
-      <div>
-        <h2>🛠️ Maintenances à venir</h2>
-        <p>Calendrier communiqué par Epic Games</p>
-      </div>
-    </div>
-    <div class="list" id="maintenanceList">
-      <div class="empty">Chargement des maintenances...</div>
-    </div>
-  </section>
-
-  <section class="section" id="news">
-    <div class="section-head">
-      <div>
-        <h2>📰 Actualités Fortnite</h2>
-        <p>Accès rapide aux informations officielles</p>
-      </div>
-    </div>
-    <div class="news-grid">
-      <a class="news-card" href="https://www.fortnite.com/news" target="_blank" rel="noopener">
-        <div>
-          <div class="news-icon">📰</div>
-          <h3>Dernières actualités</h3>
-          <p>Découvre les annonces et nouveautés du jeu.</p>
+        <div class="section-head"><h2>QUICK ACCESS</h2><span>SHORTCUTS</span></div>
+        <div class="quick-grid">
+          <button class="quick" data-go="console"><b>⌘ Console</b><small>Commandes rapides</small></button>
+          <button class="quick" data-go="lab"><b>⌁ Code lab</b><small>Préparer un projet</small></button>
+          <button class="quick" data-go="tools"><b>⚙ Tools</b><small>Outils développeur</small></button>
+          <button class="quick" data-go="security"><b>◇ Security</b><small>Conseils de sécurité</small></button>
         </div>
-        <span>Lire les actualités ↗</span>
-      </a>
-      <a class="news-card" href="https://www.fortnite.com/news/competitive" target="_blank" rel="noopener">
-        <div>
-          <div class="news-icon">🏆</div>
-          <h3>Fortnite compétitif</h3>
-          <p>Retrouve les informations sur la compétition.</p>
-        </div>
-        <span>Voir les annonces ↗</span>
-      </a>
-      <a class="news-card" href="https://status.epicgames.com/" target="_blank" rel="noopener">
-        <div>
-          <div class="news-icon">📡</div>
-          <h3>Statut officiel Epic</h3>
-          <p>Consulte directement la page de statut Epic Games.</p>
-        </div>
-        <span>Ouvrir le statut ↗</span>
-      </a>
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>🔗 Liens utiles</h2>
-        <p>Les plateformes officielles de Fortnite</p>
-      </div>
+  <section class="page" id="commands">
+    <h1 class="page-title">Command directory<span class="red">.</span></h1>
+    <p class="page-desc">Des raccourcis pour organiser tes demandes et tes projets. Ils ne lancent pas de commandes système.</p>
+    <div class="command-grid" id="commandGrid"></div>
+  </section>
+
+  <section class="page" id="console">
+    <h1 class="page-title">Command console<span class="red">.</span></h1>
+    <p class="page-desc">Console de démonstration locale. Essaie help, status, time ou clear.</p>
+    <div class="console">
+      <div class="console-output" id="consoleOutput">FORTNITE INFO CONSOLE v2.2
+Initialisation terminée.
+Tape "help" pour voir les commandes disponibles.
+----------------------------------------</div>
+      <div class="console-line"><span>fortnite $</span><input id="consoleInput" placeholder="Entre une commande..." autocomplete="off"><button class="btn primary" id="runCommand">RUN</button></div>
     </div>
-    <div class="links-grid">
-      <a class="link-card" href="https://www.fortnite.com/" target="_blank" rel="noopener"><span>🎮</span> Fortnite</a>
-      <a class="link-card" href="https://www.epicgames.com/" target="_blank" rel="noopener"><span>🎯</span> Epic Games</a>
-      <a class="link-card" href="https://www.fortnite.com/item-shop" target="_blank" rel="noopener"><span>🛒</span> Boutique</a>
-      <a class="link-card" href="https://www.fortnite.com/news" target="_blank" rel="noopener"><span>📢</span> News</a>
+    <p class="notice">Cette console est une simulation dans ton navigateur. Elle n'accède pas à ton téléphone ni à un serveur.</p>
+  </section>
+
+  <section class="page" id="lab">
+    <h1 class="page-title">Code lab<span class="red">.</span></h1>
+    <p class="page-desc">Prépare une fiche de projet informatique avec un brief simple.</p>
+    <div class="card">
+      <h3>PROJECT GENERATOR</h3>
+      <label class="stat-label" for="projectName">NOM DU PROJET</label>
+      <input class="field" id="projectName" placeholder="Ex : Mon site web">
+      <label class="stat-label" for="projectType">TYPE DE PROJET</label>
+      <select class="field" id="projectType">
+        <option>Site web</option><option>Application</option><option>Jeu vidéo</option><option>Outil informatique</option><option>Projet cybersécurité</option>
+      </select>
+      <label class="stat-label" for="projectDescription">DESCRIPTION</label>
+      <textarea class="field" id="projectDescription" placeholder="Décris ton idée..."></textarea>
+      <button class="btn primary" id="generateProject">Générer le brief</button>
+      <div class="section-head"><h2>PROJECT BRIEF</h2></div>
+      <div class="result" id="projectResult">Ton brief apparaîtra ici.</div>
+      <button class="btn" id="copyProject" style="margin-top:10px">Copier le brief</button>
     </div>
   </section>
+
+  <section class="page" id="tools">
+    <h1 class="page-title">Developer tools<span class="red">.</span></h1>
+    <p class="page-desc">Petits outils pratiques directement dans ton navigateur.</p>
+    <div class="tool-grid">
+      <div class="card">
+        <h3>TEXT ANALYZER</h3>
+        <textarea class="field" id="textInput" placeholder="Écris ou colle ton texte..."></textarea>
+        <div class="result" id="textResult">0 caractères · 0 mots · 0 lignes</div>
+      </div>
+      <div class="card">
+        <h3>JSON FORMATTER</h3>
+        <textarea class="field" id="jsonInput" placeholder='{"name":"FORTNITE INFO"}'></textarea>
+        <button class="btn primary" id="formatJson">Formater / vérifier</button>
+        <div class="result" id="jsonResult" style="margin-top:10px">Résultat JSON</div>
+      </div>
+      <div class="card">
+        <h3>NUMBER CONVERTER</h3>
+        <input class="field" id="numberInput" type="number" step="1" placeholder="Entre un nombre">
+        <div class="result" id="numberResult">HEX : —<br>BINARY : —</div>
+      </div>
+      <div class="card">
+        <h3>LOCAL TIME</h3>
+        <div class="result" id="timeResult">Chargement...</div>
+        <p class="notice">Heure fournie par ton appareil.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="security">
+    <h1 class="page-title">Security center<span class="red">.</span></h1>
+    <p class="page-desc">Quelques bonnes pratiques pour protéger tes comptes et tes appareils.</p>
+    <div class="card">
+      <div class="activity"><div class="activity-dot"></div><div><strong>Mots de passe uniques</strong><small>Utilise un mot de passe différent pour chaque compte important.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Double authentification</strong><small>Active la vérification en deux étapes quand elle est disponible.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Mises à jour</strong><small>Installe les mises à jour officielles de tes applications et appareils.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Liens suspects</strong><small>Vérifie l'adresse d'un site avant de saisir tes informations.</small></div></div>
+      <div class="activity"><div class="activity-dot"></div><div><strong>Confidentialité</strong><small>Ne partage jamais tes codes, mots de passe ou informations privées.</small></div></div>
+    </div>
+    <p class="notice">Ce module donne des conseils. Il ne réalise aucun scan et ne vérifie pas la sécurité de ton appareil.</p>
+  </section>
+
+  <section class="page" id="settings">
+    <h1 class="page-title">Settings<span class="red">.</span></h1>
+    <p class="page-desc">Personnalise l'affichage de ton centre de commande.</p>
+    <div class="card">
+      <div class="setting-row"><div><strong>Compact mode</strong><small>Réduit l'espace entre les éléments.</small></div><input class="switch" type="checkbox" id="compactMode"></div>
+      <div class="setting-row"><div><strong>Reduced motion</strong><small>Désactive les animations de l'interface.</small></div><input class="switch" type="checkbox" id="motionMode"></div>
+      <div class="setting-row"><div><strong>Theme</strong><small>Thème noir et rouge.</small></div><span class="red" style="font-size:10px">ACTIVE</span></div>
+      <button class="btn" id="resetSettings" style="margin-top:17px">Réinitialiser l'affichage</button>
+    </div>
+  </section>
+
+  <section class="page" id="about">
+    <h1 class="page-title">About Fortnite Info<span class="red">.</span></h1>
+    <div class="hero">
+      <div class="eyebrow">CONTROL CENTER EDITION</div>
+      <h1>FORTNITE INFO <span>2.2.0</span></h1>
+      <p>Un tableau de bord personnel conçu pour réunir des outils, des raccourcis et des informations dans une interface moderne.</p>
+    </div>
+    <div class="card" style="margin-top:15px">
+      <h3>INFORMATION</h3>
+      <p class="notice">Version : 2.2.0<br>Interface : HTML / CSS / JavaScript<br>Mode : local, sans serveur<br>Design : noir et rouge<br><br>Les outils de cette page fonctionnent dans ton navigateur. Aucune connexion à un système externe n'est effectuée.</p>
+    </div>
+  </section>
+
+  <div class="footer">FORTNITE INFO · BUILD 2.2.0 · CONTROL CENTER</div>
 </main>
-
-<footer>
-  <div class="container">
-    <p><strong>FORTNITE INFO</strong> — Site indépendant créé par des fans.</p>
-    <p>Ce site n'est ni affilié, ni approuvé par Epic Games.</p>
-    <p>Fortnite et Epic Games sont des marques de leurs propriétaires respectifs.</p>
-    <p style="margin-top:10px">Données de statut fournies par l'API publique Epic Games Status.</p>
-  </div>
-</footer>
-
-<div id="toast">Actualisation...</div>
+</div>
 
 <script>
-const API_SUMMARY = "https://status.epicgames.com/api/v2/summary.json";
-const API_MAINTENANCE = "https://status.epicgames.com/api/v2/scheduled-maintenances/upcoming.json";
+"use strict";
 
-const $ = id => document.getElementById(id);
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".nav-btn");
+const crumb = document.getElementById("crumb");
+const sidebar = document.getElementById("sidebar");
 
-const safeText = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
+function showPage(id){
+  const target = document.getElementById(id);
+  if(!target || !target.classList.contains("page")) return;
 
-const dateText = value => {
-  if (!value) return "Date non précisée";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "Date non précisée";
-  return new Intl.DateTimeFormat("fr-FR", {
-    dateStyle:"medium",
-    timeStyle:"short"
-  }).format(date);
-};
-
-function showToast(message) {
-  const el = $("toast");
-  el.textContent = message;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 2500);
+  pages.forEach(page => page.classList.toggle("active", page.id === id));
+  navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === id));
+  crumb.textContent = id.replace("-", " ").toUpperCase();
+  sidebar.classList.remove("open");
+  window.scrollTo({top:0,behavior:document.body.classList.contains("reduce-motion")?"auto":"smooth"});
 }
 
-function setStatus(status, description, count) {
-  const healthy = /operational|none|all systems operational/i.test(
-    (status || "") + " " + (description || "")
-  );
-
-  $("statusTitle").textContent = healthy
-    ? "Tous les systèmes sont opérationnels"
-    : "Un état particulier est signalé";
-
-  $("statusDescription").textContent =
-    description || "Consulte la page officielle pour plus de détails.";
-
-  $("statusTag").textContent = healthy ? "OPÉRATIONNEL" : "À SURVEILLER";
-  $("statusTag").className = "status-tag" + (healthy ? "" : " warn");
-
-  $("statusIcon").textContent = healthy ? "✓" : "!";
-  $("statusIcon").style.color = healthy ? "var(--green)" : "var(--yellow)";
-  $("statusIcon").style.background = healthy
-    ? "rgba(53,223,160,.12)"
-    : "rgba(255,196,92,.12)";
-
-  $("serviceCount").textContent = Number.isFinite(count) ? count : "—";
-}
-
-function renderIncidents(incidents) {
-  const el = $("incidentList");
-  $("incidentCount").textContent = incidents.length;
-  $("incidentDot").style.background = incidents.length ? "var(--red)" : "var(--green)";
-
-  if (!incidents.length) {
-    el.innerHTML = '<div class="empty">✓ Aucun incident en cours signalé.</div>';
-    return;
-  }
-
-  el.innerHTML = incidents.map(item => `
-    <article class="item">
-      <strong>${safeText(item.name || "Incident en cours")}</strong>
-      <p>${safeText(item.status || "En cours")} · ${safeText(item.impact || "Impact non précisé")}</p>
-      <p>${safeText(item.shortlink || "")}</p>
-    </article>
-  `).join("");
-}
-
-function renderMaintenances(items) {
-  const el = $("maintenanceList");
-  $("maintenanceCount").textContent = items.length;
-
-  if (!items.length) {
-    el.innerHTML = '<div class="empty">Aucune maintenance programmée affichée pour le moment.</div>';
-    return;
-  }
-
-  el.innerHTML = items.slice(0, 6).map(item => `
-    <article class="item">
-      <strong>${safeText(item.name || "Maintenance programmée")}</strong>
-      <p>${safeText(item.status || "Programmée")}</p>
-      <p>Début : ${safeText(dateText(item.scheduled_for || item.scheduled_until))}</p>
-    </article>
-  `).join("");
-}
-
-async function loadData() {
-  const button = $("refreshButton");
-  button.disabled = true;
-
-  try {
-    const response = await fetch(API_SUMMARY, {cache:"no-store"});
-    if (!response.ok) throw new Error("Status API unavailable");
-
-    const data = await response.json();
-    const page = data.page || {};
-    const components = data.components || [];
-
-    const active = (data.incidents || []).filter(item =>
-      !["resolved", "completed"].includes(item.status)
-    );
-
-    setStatus(
-      page.status?.indicator || "unknown",
-      page.status?.description || "État officiel reçu.",
-      components.length
-    );
-
-    renderIncidents(active);
-
-    $("updatedAt").textContent = page.updated_at
-      ? "Données mises à jour : " + dateText(page.updated_at)
-      : "Données officielles reçues";
-
-    $("lastCheck").textContent = "Dernière vérification : " +
-      new Intl.DateTimeFormat("fr-FR", {
-        hour:"2-digit", minute:"2-digit"
-      }).format(new Date());
-
-  } catch (error) {
-    $("statusTitle").textContent = "Statut temporairement indisponible";
-    $("statusDescription").textContent =
-      "Impossible de récupérer les données. Réessaie dans un instant.";
-    $("statusTag").textContent = "INDISPONIBLE";
-    $("statusTag").className = "status-tag bad";
-    $("statusIcon").textContent = "!";
-    $("incidentList").innerHTML =
-      '<div class="empty">Impossible de charger les incidents. Consulte le statut officiel Epic Games.</div>';
-    $("incidentCount").textContent = "—";
-    $("serviceCount").textContent = "—";
-    $("lastCheck").textContent = "Échec de la vérification";
-  }
-
-  try {
-    const response = await fetch(API_MAINTENANCE, {cache:"no-store"});
-    if (!response.ok) throw new Error("Maintenance API unavailable");
-
-    const data = await response.json();
-    const items = (data.scheduled_maintenances || []).filter(item =>
-      !["completed", "cancelled"].includes(item.status)
-    );
-
-    renderMaintenances(items);
-
-  } catch (error) {
-    $("maintenanceList").innerHTML =
-      '<div class="empty">Les maintenances ne sont pas disponibles pour le moment.</div>';
-    $("maintenanceCount").textContent = "—";
-  }
-
-  button.disabled = false;
-}
-
-$("refreshButton").addEventListener("click", () => {
-  showToast("Actualisation des données...");
-  loadData();
+navButtons.forEach(button => {
+  button.addEventListener("click",()=>showPage(button.dataset.page));
 });
 
-loadData();
-setInterval(loadData, 60000);
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click",()=>showPage(button.dataset.go));
+});
+
+document.getElementById("menuBtn").addEventListener("click",()=>{
+  sidebar.classList.toggle("open");
+});
+
+document.addEventListener("click",event=>{
+  if(window.innerWidth <= 650 &&
+     sidebar.classList.contains("open") &&
+     !sidebar.contains(event.target) &&
+     !event.target.closest("#menuBtn")){
+    sidebar.classList.remove("open");
+  }
+});
+
+function updateClock(){
+  const now = new Date();
+  document.getElementById("clock").textContent = now.toLocaleTimeString("fr-FR");
+  document.getElementById("timeResult").textContent = now.toLocaleString("fr-FR");
+}
+updateClock();
+setInterval(updateClock,1000);
+
+const commands = [
+  ["/help","Afficher les possibilités et obtenir de l'aide."],
+  ["/menu","Organiser les différentes sections d'un projet."],
+  ["/code","Demander une explication ou un exemple de code."],
+  ["/debug","Comprendre et rechercher l'origine d'une erreur."],
+  ["/explain","Obtenir une explication claire d'un sujet."],
+  ["/optimize","Améliorer la lisibilité d'un projet."],
+  ["/review","Faire relire un code ou un texte."],
+  ["/build","Préparer les étapes d'une nouvelle idée."],
+  ["/status","Faire le point sur l'avancement d'un projet."],
+  ["/reset","Repartir sur une nouvelle organisation."]
+];
+
+const commandGrid = document.getElementById("commandGrid");
+
+commands.forEach(([name,description])=>{
+  const card = document.createElement("div");
+  card.className="command";
+
+  const code=document.createElement("code");
+  code.textContent=name;
+
+  const p=document.createElement("p");
+  p.textContent=description;
+
+  const button=document.createElement("button");
+  button.textContent="COPIER";
+
+  button.addEventListener("click",async()=>{
+    try{
+      await navigator.clipboard.writeText(name);
+      button.textContent="COPIÉ !";
+    }catch(error){
+      button.textContent="COPIE INDISPONIBLE";
+    }
+    setTimeout(()=>button.textContent="COPIER",1400);
+  });
+
+  card.append(code,p,button);
+  commandGrid.appendChild(card);
+});
+
+const consoleOutput=document.getElementById("consoleOutput");
+const consoleInput=document.getElementById("consoleInput");
+
+function printLine(text){
+  consoleOutput.textContent += "\n"+text;
+  consoleOutput.scrollTop=consoleOutput.scrollHeight;
+}
+
+function runConsole(){
+  const value=consoleInput.value.trim().toLowerCase();
+  if(!value)return;
+
+  printLine("fortnite $ "+value);
+
+  if(value==="help"){
+    printLine("Commandes : help, status, time, clear, about");
+  }else if(value==="status"){
+    printLine("Interface : ONLINE | Build : 2.2.0 | Mode : LOCAL");
+  }else if(value==="time"){
+    printLine("Heure : "+new Date().toLocaleTimeString("fr-FR"));
+  }else if(value==="about"){
+    printLine("FORTNITE INFO — interface de démonstration.");
+  }else if(value==="clear"){
+    consoleOutput.textContent="Console nettoyée.";
+  }else{
+    printLine("Commande inconnue. Tape help.");
+  }
+
+  consoleInput.value="";
+}
+
+document.getElementById("runCommand").addEventListener("click",runConsole);
+consoleInput.addEventListener("keydown",event=>{
+  if(event.key==="Enter")runConsole();
+});
+
+document.getElementById("generateProject").addEventListener("click",()=>{
+  const name=document.getElementById("projectName").value.trim()||"Projet sans nom";
+  const type=document.getElementById("projectType").value;
+  const description=document.getElementById("projectDescription").value.trim()||"Aucune description fournie.";
+
+  document.getElementById("projectResult").textContent=
+    "PROJET : "+name+
+    "\nTYPE : "+type+
+    "\n\nDESCRIPTION :\n"+description+
+    "\n\nÉTAPES SUGGÉRÉES :\n1. Définir les objectifs.\n2. Préparer les ressources.\n3. Réaliser une première version.\n4. Tester et améliorer.";
+});
+
+document.getElementById("copyProject").addEventListener("click",async()=>{
+  const button=document.getElementById("copyProject");
+  const text=document.getElementById("projectResult").textContent;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    button.textContent="COPIÉ !";
+  }catch(error){
+    button.textContent="COPIE INDISPONIBLE";
+  }
+
+  setTimeout(()=>button.textContent="Copier le brief",1500);
+});
+
+const textInput=document.getElementById("textInput");
+
+textInput.addEventListener("input",()=>{
+  const text=textInput.value;
+  const words=text.trim()?text.trim().split(/\s+/).length:0;
+  const lines=text?text.split("\n").length:0;
+
+  document.getElementById("textResult").textContent=
+    text.length+" caractères · "+words+" mots · "+lines+" lignes";
+});
+
+document.getElementById("formatJson").addEventListener("click",()=>{
+  const result=document.getElementById("jsonResult");
+
+  try{
+    const parsed=JSON.parse(document.getElementById("jsonInput").value);
+    result.textContent=JSON.stringify(parsed,null,2);
+  }catch(error){
+    result.textContent="JSON INVALIDE : "+error.message;
+  }
+});
+
+document.getElementById("numberInput").addEventListener("input",()=>{
+  const value=document.getElementById("numberInput").value;
+  const result=document.getElementById("numberResult");
+
+  if(value==="" || !Number.isSafeInteger(Number(value))){
+    result.textContent="HEX : —\nBINARY : —";
+    return;
+  }
+
+  const number=Number(value);
+  result.textContent=
+    "HEX : "+number.toString(16).toUpperCase()+
+    "\nBINARY : "+number.toString(2);
+});
+
+document.getElementById("compactMode").addEventListener("change",event=>{
+  document.body.classList.toggle("compact",event.target.checked);
+});
+
+document.getElementById("motionMode").addEventListener("change",event=>{
+  document.body.classList.toggle("reduce-motion",event.target.checked);
+});
+
+document.getElementById("resetSettings").addEventListener("click",()=>{
+  document.getElementById("compactMode").checked=false;
+  document.getElementById("motionMode").checked=false;
+  document.body.classList.remove("compact","reduce-motion");
+});
 </script>
 </body>
 </html>
